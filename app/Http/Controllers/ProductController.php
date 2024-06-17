@@ -147,6 +147,7 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'companies'));
     }
 
+    // 登録機能もちゃんと機能している
 
 
     
@@ -172,6 +173,24 @@ class ProductController extends Controller
         // $filePath = $product->image;
 
         try{
+        //画像変更の確認
+            if(!empty($request->img_path)) {
+                // $file = $request->file('path');
+                $file = $request->file('img_path');
+
+                // $filename = $file->getClientOriginalName();
+                $filename = $file->getClientOriginalName();
+
+                // $request->file('path')->storeAs('public',$filename);
+                $request->file('img_path')->storeAs('storage', $filename, 'public');
+
+                
+                // $post->path = '/storage/' . $filename;
+                $product->img_path = '/storage/'. $filename; 
+                
+                // $img_path = $filePath;
+
+            }
 
         // //     $image = '';           // 選択された画像
         // //     $filePath  = $product->img_path; // 現在の画像ファイルパス
@@ -190,7 +209,7 @@ class ProductController extends Controller
         // //     $product->update($data);
         // //     return redirect()->route('products.index')->with('message', '投稿の更新が完了しました。');
 
-                    
+        
             // 商品情報の更新、既存の情報を新しい情報に書き換える
                 $product->product_name = $request->product_name;
                 $product->price = $request->price;
@@ -228,6 +247,10 @@ class ProductController extends Controller
  * **/
 
 
+
+
+
+    //削除機能はちゃんと機能している
 
     public function destroy(Product $product)
     //(Product $product) 指定されたIDで商品をデータベースから自動的に検索し、その結果を $product に割り当てます。
