@@ -9,8 +9,9 @@
     <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
 
         @csrf
-
-
+        <div class="mb-3">
+            <label for="product_id" class="form-label">商品ID:</label>
+        </div>
 
         <div class="mb-3">
             <label for="product_name" class="form-label">商品名:</label>
@@ -48,7 +49,7 @@
             <input id="img_path" type="file" name="img_path" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-primary">登録</button>
+        <button type="submit" class="btn btn-success">登録</button>
     </form>
 
 </div>

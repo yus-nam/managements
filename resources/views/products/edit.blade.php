@@ -4,14 +4,19 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <a href="{{ route('products.index') }}" class="btn btn-primary mt-1 mb-3">商品一覧画面に戻る</a>
+                <!-- <a href="{{ route('products.index') }}" class="btn btn-primary mt-1 mb-3">商品一覧画面に戻る</a> -->
                 <div class="card">
-                    <div class="card-header"><h2>商品情報を変更する</h2></div>
+                    <div class="card-header"><h2>商品情報詳細</h2></div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('products.update', $product) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+                            
+                            <div class="mb-3">
+                                <label for="product_id" class="form-label">商品ID</label>
+                                
+                            </div>
 
                             <div class="mb-3">
                                 <label for="product_name" class="form-label">商品名</label>
@@ -48,7 +53,11 @@
                                 <img src="{{ asset($product->img_path) }}" alt="商品画像" class="product-image">
                             </div>
 
-                            <button type="submit" class="btn btn-primary">変更内容で更新する</button>
+                            <button type="submit" class="btn btn-success mt-1 mb-3">更新</button>
+                            <!-- <a href="{{ route('products.index') }}" class="btn btn-info mt-1 mb-3">編集</a> -->
+                            <a href="{{ route('products.index') }}" class="btn btn-warning mt-1 mb-3">戻る</a>
+
+
                         </form>
                     </div>
                 </div>

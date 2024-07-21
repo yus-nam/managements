@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id(); // bigint(20) の ID
             $table->unsignedBigInteger('company_id');
             $table->string('product_name', 255);
+            // $table->string('company_name', 255);
             $table->integer('price'); // int(11)
             $table->integer('stock'); // int(11)
             $table->text('comment')->nullable();

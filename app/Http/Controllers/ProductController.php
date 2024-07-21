@@ -25,6 +25,11 @@ class ProductController extends Controller
         if($search = $request->search){
             $query->where('product_name', 'LIKE', "%{$search}%");
         }
+
+        // メーカー名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
+        if($search = $request->search){
+            $query->where('company_name', 'LIKE', "%{$search}%");
+        }
     
         // 最小価格が指定されている場合、その価格以上の商品をクエリに追加
         if($min_price = $request->min_price){
@@ -245,10 +250,6 @@ class ProductController extends Controller
  * ② 既に更新済み、あるいは更新中の項目が操作されたときにエラーが生じるようにしたい
  * 　あるいは同時に更新ボタンを押したときに先に操作された機能のみ実行されるようにしたい
  * **/
-
-
-
-
 
     //削除機能はちゃんと機能している
 
