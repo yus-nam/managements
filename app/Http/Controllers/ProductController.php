@@ -136,6 +136,7 @@ class ProductController extends Controller
     public function show(Product $product)
     //(Product $product) 指定されたIDで商品をデータベースから自動的に検索し、その結果を $product に割り当てます。
     {
+        
         // 商品詳細画面を表示します。その際に、商品の詳細情報を画面に渡します。
     //　ビューへproductという変数が使えるように値を渡している
     // ['product' => $product]でビューでproductを使えるようにしている

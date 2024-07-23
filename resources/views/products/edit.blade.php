@@ -15,7 +15,7 @@
                             
                             <div class="mb-3">
                                 <label for="product_id" class="form-label">商品ID</label>
-                                
+                                <input type="text" class="form-control" id="id" name="id" value="{{ $product->id }}" required>
                             </div>
 
                             <div class="mb-3">
