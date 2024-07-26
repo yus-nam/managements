@@ -4,13 +4,12 @@
 <div class="container">
     <h1 class="mb-4">商品新規登録</h1>
 
-    <a href="{{ route('products.index') }}" class="btn btn-primary mb-3">商品一覧に戻る</a>
-
     <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
 
         @csrf
         <div class="mb-3">
             <label for="product_id" class="form-label">商品ID:</label>
+            <input id="product_id" type="text" name="product_id" class="form-control" required>
         </div>
 
         <div class="mb-3">
@@ -49,7 +48,9 @@
             <input id="img_path" type="file" name="img_path" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-success">登録</button>
+        <button type="submit" class="btn btn-success ml-0 mb-3">登録</button>
+
+        <a href="{{ route('products.index') }}" class="btn btn-warning mb-3">戻る</a>
     </form>
 
 </div>

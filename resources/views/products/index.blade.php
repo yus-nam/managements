@@ -87,7 +87,7 @@
                     </td>
                     <td>
                         <!-- <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細表示</a> -->
-                        <a href="{{ route('products.edit', $product) }}" class="btn btn-info btn-sm mx-1">詳細</a>
+                        <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細</a>
                         <form method="POST" action="{{ route('products.destroy', $product) }}" class="d-inline">
                             @csrf
                             @method('DELETE')
