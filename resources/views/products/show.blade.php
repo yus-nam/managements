@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+
     <h1 class="mb-2">商品情報詳細</h1>
 
     <dl class="row mt-3" >
@@ -12,7 +13,7 @@
         <dd class="col-sm-9">{{ $product->product_name }}</dd>
 
         <dt class="col-sm-3">メーカー</dt>
-        <dd class="col-sm-9">{{ $product->company->name }}</dd>
+        <dd class="col-sm-9">{{ $product->company_name }}</dd>
 
         <dt class="col-sm-3">価格</dt>
         <dd class="col-sm-9">{{ $product->price }}</dd>
@@ -29,6 +30,6 @@
     <a href="{{ route('products.edit', $product) }}" class="btn btn-success mx-1">編集</a>
 
     <a href="{{ route('products.index') }}" class="btn btn-warning mt-15">戻る</a>
-
+    
 </div>
 @endsection

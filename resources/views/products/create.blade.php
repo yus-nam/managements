@@ -7,19 +7,16 @@
     <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
 
         @csrf
-        <div class="mb-3">
-            <label for="product_id" class="form-label">商品ID:</label>
-            <input id="product_id" type="text" name="product_id" class="form-control" required>
-        </div>
 
+        
         <div class="mb-3">
             <label for="product_name" class="form-label">商品名:</label>
             <input id="product_name" type="text" name="product_name" class="form-control" required>
         </div>
 
         <div class="mb-3">
-            <label for="company_id" class="form-label">メーカー</label>
-            <select class="form-select" id="company_id" name="company_id">
+            <label for="company_name" class="form-label">メーカー</label>
+            <select class="form-select" id="company_name" name="company_name">
                 @foreach($companies as $company)
                     <option value="{{ $company->id }}">{{ $company->company_name }}</option>
                 @endforeach
@@ -48,7 +45,7 @@
             <input id="img_path" type="file" name="img_path" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-success ml-0 mb-3">登録</button>
+        <button type="submit" class="btn btn-success mb-3">登録</button>
 
         <a href="{{ route('products.index') }}" class="btn btn-warning mb-3">戻る</a>
     </form>

@@ -24,8 +24,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="company_id" class="form-label">メーカー</label>
-                                <select class="form-select" id="company_id" name="company_id">
+                                <label for="company_name" class="form-label">メーカー</label>
+                                <select class="form-select" id="company_name" name="company_name">
                                     @foreach($companies as $company)
                                         <option value="{{ $company->id }}" {{ $product->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                                     @endforeach

@@ -24,6 +24,9 @@ class ProductController extends Controller
         // 商品名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
         if($search = $request->search){
             $query->where('product_name', 'LIKE', "%{$search}%");
+            // ->orwhereHas('対象のモデル名', function ($query) use ($serach){
+            //     $query->where('対象のカラム名', 'LIKE', "%{$キーワードを代入した変数}%");
+            // })-get();
         }
 
         // メーカー名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
@@ -116,6 +119,7 @@ class ProductController extends Controller
             $model->registProduct($request,$img_path);
 
             // dd($request);
+            
             DB::commit();
 
         } catch(Exception $e) { /** 例外処理 **/
@@ -198,24 +202,6 @@ class ProductController extends Controller
 
             }
 
-        // //     $image = '';           // 選択された画像
-        // //     $filePath  = $product->img_path; // 現在の画像ファイルパス
-
-        // //     //画像更新処理 
-        // //     if ($request->hasFile('img_path')) {
-        // //         // 現在の画像ファイル削除
-        // //         if ($filePath !== '' && !is_null($filePath)) {
-        // //             Storage::disk('public')->delete($filePath);
-        // //         }
-        // //         // 選択画像ファイルを保存してパスをセット
-        // //         $image = $request->file('img_path')->store('img_path', 'public');
-        // //         $data['img_path'] = $image;
-        // //     }
-        // //     // 更新
-        // //     $product->update($data);
-        // //     return redirect()->route('products.index')->with('message', '投稿の更新が完了しました。');
-
-        
             // 商品情報の更新、既存の情報を新しい情報に書き換える
                 $product->product_name = $request->product_name;
                 $product->price = $request->price;
