@@ -20,22 +20,14 @@
             <input type="text" name="search" class="form-control" placeholder="商品名" value="{{ request('search') }}">
         </div>
 
+        
         <!-- メーカー名検索用の入力欄 -->
-        <div class="col-sm-12 col-md-3">
-            <!-- <input type="text" name="search" class="form-control" placeholder="メーカー名" value="{{ request('search') }}"> -->
-            <label for="company_name" class="form-label">メーカー</label>
-            <select class="form-select" id="company_name" name="company_name">
-                @foreach($companies as $company)
-                    <option value="{{ $company->id }}" {{ $product->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
-                @endforeach
-            </select>
-        </div>
 
         <div class="col-sm-3">
-            <label for="company_name" class="form-label">メーカー</label>
-            <select class="form-select" id="company_name" name="company_name">
+            <!-- <label for="company_name" class="form-label">メーカー</label> -->
+            <select  name="company_name" class="form-select" placeholder="メーカー" id="company_name">
                 @foreach($companies as $company)
-                    <option value="{{ $company->id }}" {{ $product->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
+                    <option value="{{ $company->id }}" {{ $company->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                 @endforeach
             </select>
         </div>

@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <!-- <a href="{{ route('products.index') }}" class="btn btn-primary mt-1 mb-3">商品一覧画面に戻る</a> -->
                 <div class="card">
-                    <div class="card-header"><h2>商品情報詳細</h2></div>
+                    <div class="card-header"><h2>商品情報編集</h2></div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('products.update', $product) }}" enctype="multipart/form-data">
@@ -27,7 +27,7 @@
                                 <label for="company_name" class="form-label">メーカー</label>
                                 <select class="form-select" id="company_name" name="company_name">
                                     @foreach($companies as $company)
-                                        <option value="{{ $company->id }}" {{ $product->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
+                                        <option value="{{ $company->id }}" {{ $company->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
