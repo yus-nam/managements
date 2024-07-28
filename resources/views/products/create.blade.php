@@ -8,7 +8,6 @@
 
         @csrf
 
-        
         <div class="mb-3">
             <label for="product_name" class="form-label">商品名:</label>
             <input id="product_name" type="text" name="product_name" class="form-control" required>

@@ -39,11 +39,13 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+
 //詳細画面の表示
-Route::get('/products/show/{product}', 'ProductsController@show');
+Route::get('/products/show/{product}', 'ProductsController@show')->name('show');
 
 // 編集画面の表示
-Route::get('/products/edit/{product}', 'ProductsController@edit');
+Route::get('/products/edit/{product}', 'ProductsController@edit')->name('edit');
 
 
 Auth::routes();

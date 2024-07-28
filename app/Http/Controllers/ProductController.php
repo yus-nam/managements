@@ -16,11 +16,17 @@ class ProductController extends Controller
     
     public function index(Request $request)
     {
+
+        // 商品編集画面で会社の情報が必要なので、全ての会社の情報を取得します。
+        $companies = Company::all();
+
         // Productモデルに基づいてクエリビルダを初期化
         $query = Product::query();
         // この行の後にクエリを逐次構築していきます。
         // そして、最終的にそのクエリを実行するためのメソッド（例：get(), first(), paginate() など）を呼び出すことで、データベースに対してクエリを実行します。
     
+        
+
         // 商品名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
         if($search = $request->search){
             $query->where('product_name', 'LIKE', "%{$search}%");
@@ -30,9 +36,9 @@ class ProductController extends Controller
         }
 
         // メーカー名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
-        if($search = $request->search){
-            $query->where('company_name', 'LIKE', "%{$search}%");
-        }
+        // if($search = $request->search){
+        //     $query->where('company_name', 'LIKE', "%{$search}%");
+        // }
     
         // 最小価格が指定されている場合、その価格以上の商品をクエリに追加
         if($min_price = $request->min_price){
@@ -67,8 +73,10 @@ class ProductController extends Controller
         $products = $query->paginate(10)->appends($request->all());
     
         // 商品一覧ビューを表示し、取得した商品情報をビューに渡す
-        return view('products.index', ['products' => $products]);
+        return view('products.index', ['products' => $products], compact('companies'));
     }
+
+
 
     public function create()
     {
@@ -78,6 +86,8 @@ class ProductController extends Controller
         // 商品登録画面の表示
         return view('products.create', compact('companies'));
     }
+
+
 
     // 送られたデータをデータベースに保存するメソッド
     public function store(Request $request) 
@@ -137,6 +147,7 @@ class ProductController extends Controller
     }
 
 
+
     public function show(Product $product)
     //(Product $product) 指定されたIDで商品をデータベースから自動的に検索し、その結果を $product に割り当てます。
     {
@@ -148,16 +159,17 @@ class ProductController extends Controller
     }
 
 
+
     public function edit(Product $product)
     {
-        // 商品編集画面における会社情報の取得します。
+        // 商品編集画面で会社の情報が必要なので、全ての会社の情報を取得します。
         $companies = Company::all();
 
         // 商品編集画面の表示
         return view('products.edit', compact('product', 'companies'));
     }
 
-    // 登録機能もちゃんと機能している
+    // 登録機能もちゃんと機能している→反応しなくなった
 
 
     
