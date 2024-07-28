@@ -22,7 +22,6 @@
 
         
         <!-- メーカー名検索用の入力欄 -->
-
         <div class="col-sm-3">
             <!-- <label for="company_name" class="form-label">メーカー</label> -->
             <select  name="company_name" class="form-select" placeholder="メーカー" id="company_name">
@@ -30,6 +29,7 @@
                     <option value="{{ $company->id }}" {{ $company->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                 @endforeach
             </select>
+
         </div>
 
         <!-- 最小価格の入力欄 -->
