@@ -9,6 +9,7 @@ use Illuminate\Http\Request; // Requestクラスという機能を使えるよ�
 // Requestクラスはブラウザに表示させるフォームから送信されたデータをコントローラのメソッドで引数として受け取ることができます。
 use DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 
 class ProductController extends Controller 
@@ -95,6 +96,9 @@ class ProductController extends Controller
     // 送られたデータをデータベースに保存するメソッド
     public function store(Request $request) 
     {
+
+        Log::info('Store method called', $request->all());
+
         // バリデーション
         $request->validate([
             'company_id' => 'required', //requiredは必須入力
@@ -105,6 +109,9 @@ class ProductController extends Controller
             'img_path' => 'nullable|image|max:2048', // 画像ファイル、最大サイズ2048kb
         ]);
         // 必須項目が一部未入力の場合、フォームの画面を再表示かつ、警告メッセージを表示
+        Log::info('Validation passed', $request->all());
+
+
 
         //新規のプロダクトインスタンスを作成
         $model = new Product();
@@ -147,6 +154,9 @@ class ProductController extends Controller
 
         // 商品一覧画面にリダイレクト
         return redirect('products');
+
+        
+
     }
 
 

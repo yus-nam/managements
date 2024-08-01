@@ -19,8 +19,8 @@ class Product extends Model
     // 以下の情報（属性）を一度に保存したり変更したりできるように設定しています。
     // $fillable を設定しないと、Laravelはセキュリティリスクを避けるために、この一括代入をブロックします。
     protected $fillable = [
-        'company_id',
         'product_name',
+        'company_id',
         'company_name',
         'price',
         'stock',
@@ -51,11 +51,12 @@ class Product extends Model
         DB::table('products')->insert([
 
             'product_name' => $request->product_name,
+            'company_id' => $request->company_id,
             'price' => $request->price,
             'stock' => $request->stock,
-            'company_id' => $request->company_id,
             'comment' => $request->comment,
             'img_path' => $img_path,
+            
         ]);
     }
 
