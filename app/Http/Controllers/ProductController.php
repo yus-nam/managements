@@ -18,7 +18,16 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        // 商品編集画面で会社の情報が必要なので、全ての会社の情報を取得します。
+        Log::info('Index method called', $request->all());
+
+        // 全ての商品情報を取得しています。これが商品一覧画面で使われます。
+        $products = Product::all(); 
+        //productsという名前は任意名です。何を格納しているのかわかりやすい名前を付けます
+        //Productはモデル名を指しています。どのテーブルを操作するか指定します
+        //::all();はデータベーステーブルの全てのデータを取得するためのメソッドです
+        //$productsにはProductテーブルの全てのデータが取得し格納されます
+
+        // 商品一覧画面で会社の情報が必要なので、全ての会社の情報を取得します。
         $companies = Company::all();
 
         // Productモデルに基づいてクエリビルダを初期化
@@ -36,9 +45,8 @@ class ProductController extends Controller
 
         // メーカー名が選択された場合、そのキーワードを含む商品をクエリに追加
         if(isset($company_id)) {
-            $query->where('company_id' ,$company_id);
+            $query->where('company_id' , $company_id);
         }
-        
         
         // if($search = $request->search){
         //     $query->where('company_name', 'LIKE', "%{$search}%");
@@ -66,7 +74,7 @@ class ProductController extends Controller
     
         // ソートのパラメータが指定されている場合、そのカラムでソートを行う
         if($sort = $request->sort){
-            $direction = $request->direction == 'desc' ? 'desc' : 'asc'; 
+            $direction = $request->direction == 'desc' ? 'desc' : 'asc'; // directionがdescでない場合は、デフォルトでascとする
     // もし $request->direction の値が 'desc' であれば、'desc' を返す。
     // そうでなければ'asc' を返す
             $query->orderBy($sort, $direction);
@@ -78,19 +86,21 @@ class ProductController extends Controller
     
         // 商品一覧ビューを表示し、取得した商品情報をビューに渡す
         return view('products.index', ['products' => $products], compact('companies'));
+        // return view('products.index', compact('companies', 'products'));
     }
+
+    
 
 
 
     public function create()
     {
-        // 商品作成画面における会社情報の取得
+        // 商品作成画面で会社の情報が必要なので、全ての会社の情報を取得します。
         $companies = Company::all();
 
         // 商品登録画面の表示
         return view('products.create', compact('companies'));
     }
-
 
 
     // 送られたデータをデータベースに保存するメソッド
@@ -110,7 +120,6 @@ class ProductController extends Controller
         ]);
         // 必須項目が一部未入力の場合、フォームの画面を再表示かつ、警告メッセージを表示
         Log::info('Validation passed', $request->all());
-
 
 
         //新規のプロダクトインスタンスを作成
@@ -155,9 +164,8 @@ class ProductController extends Controller
         // 商品一覧画面にリダイレクト
         return redirect('products');
 
-        
-
     }
+
 
 
 
@@ -173,6 +181,7 @@ class ProductController extends Controller
 
 
 
+
     public function edit(Product $product)
     {
         // 商品編集画面で会社の情報が必要なので、全ての会社の情報を取得します。
@@ -185,6 +194,7 @@ class ProductController extends Controller
     // 登録機能もちゃんと機能している→反応しなくなった
 
 
+   
     
     public function update(Request $request, Product $product)
     {
@@ -263,8 +273,10 @@ class ProductController extends Controller
  * 　あるいは同時に更新ボタンを押したときに先に操作された機能のみ実行されるようにしたい
  * **/
 
-    //削除機能はちゃんと機能している
+    
 
+
+    //削除機能はちゃんと機能している
     public function destroy(Product $product)
     //(Product $product) 指定されたIDで商品をデータベースから自動的に検索し、その結果を $product に割り当てます。
     {

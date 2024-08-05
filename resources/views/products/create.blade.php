@@ -47,6 +47,7 @@
         <button type="submit" class="btn btn-success mb-3">登録</button>
 
         <a href="{{ route('products.index') }}" class="btn btn-warning mb-3">戻る</a>
+        
     </form>
 
 </div>
