@@ -84,23 +84,27 @@ class ProductController extends Controller
         // 上記の条件(クエリ）に基づいて商品を取得し、10件ごとのページネーションを適用
         $products = $query->paginate(10)->appends($request->all());
     
+
         // 商品一覧ビューを表示し、取得した商品情報をビューに渡す
         return view('products.index', ['products' => $products], compact('companies'));
-        // return view('products.index', compact('companies', 'products'));
+        
+        // productsディレクトリのindex.blade.phpを表示させます
+        // compact('company')によって
+        // $companyという変数の内容が、ビューファイル側で利用できるようになります。
+        // ビューファイル内で$companiesと書くことでその変数の中身にアクセスできます。
     }
 
     
-
-
 
     public function create()
     {
         // 商品作成画面で会社の情報が必要なので、全ての会社の情報を取得します。
         $companies = Company::all();
 
-        // 商品登録画面の表示
+        // 商品作成画面を表示します。その際に、先ほど取得した全ての会社情報を画面に渡します。
         return view('products.create', compact('companies'));
     }
+
 
 
     // 送られたデータをデータベースに保存するメソッド
@@ -115,9 +119,10 @@ class ProductController extends Controller
             'product_name' => 'required',
             'price' => 'required',
             'stock' => 'required',
-            'comment' => 'nullable', //'nullable'はnone許可
+            'comment' => 'nullable', //'nullable'はそのフィールドが未入力でもOKという意味です
             'img_path' => 'nullable|image|max:2048', // 画像ファイル、最大サイズ2048kb
         ]);
+
         // 必須項目が一部未入力の場合、フォームの画面を再表示かつ、警告メッセージを表示
         Log::info('Validation passed', $request->all());
 
@@ -165,7 +170,6 @@ class ProductController extends Controller
         return redirect('products');
 
     }
-
 
 
 
