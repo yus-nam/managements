@@ -29,6 +29,15 @@ class ProductController extends Controller
 
         // 商品一覧画面で会社の情報が必要なので、全ての会社の情報を取得します。
         $companies = Company::all();
+        
+
+
+
+        $this->products = new Product();
+
+        $products = $this->products->getCompanyNameById();
+
+
 
         // Productモデルに基づいてクエリビルダを初期化
         $query = Product::query();
@@ -48,10 +57,6 @@ class ProductController extends Controller
             $query->where('company_id' , $company_id);
         }
         
-        // if($search = $request->search){
-        //     $query->where('company_name', 'LIKE', "%{$search}%");
-        // }
-    
         // 最小価格が指定されている場合、その価格以上の商品をクエリに追加
         if($min_price = $request->min_price){
             $query->where('price', '>=', $min_price);
@@ -86,13 +91,20 @@ class ProductController extends Controller
     
 
         // 商品一覧ビューを表示し、取得した商品情報をビューに渡す
-        return view('products.index', ['products' => $products], compact('companies'));
-        
+        // return view('products.index', ['products' => $products], compact('companies'), compact('product'));
+
+        return view('products.index', compact('companies'), compact('products'));
+
+
         // productsディレクトリのindex.blade.phpを表示させます
         // compact('company')によって
         // $companyという変数の内容が、ビューファイル側で利用できるようになります。
         // ビューファイル内で$companiesと書くことでその変数の中身にアクセスできます。
     }
+
+
+
+
 
     
 

@@ -5,7 +5,7 @@ namespace App\Models;
 // 使うツールを取り込んでいます。
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use DB;
+use Illuminate\support\Facades\DB;
 
 // Productという名前のツール（クラス）を作っています。
 class Product extends Model
@@ -33,6 +33,14 @@ class Product extends Model
         'comment' => ' ',
         'img_path' => ' '
     ];
+
+
+    //内部結合を行うためのメソッドです
+    public function getCompanyNameById(){
+        return DB::table('products')
+            ->join('companies', 'products.company_id', '=', 'companies.id')
+            ->get();
+    }
 
     // Productモデルがsalesテーブルとリレーション関係を結ぶためのメソッドです
     public function sales()
