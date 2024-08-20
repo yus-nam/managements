@@ -21,7 +21,9 @@ class ProductController extends Controller
         Log::info('Index method called', $request->all());
 
         // 全ての商品情報を取得しています。これが商品一覧画面で使われます。
-        $products = Product::all(); 
+        
+        // $products = Product::all();
+
         //productsという名前は任意名です。何を格納しているのかわかりやすい名前を付けます
         //Productはモデル名を指しています。どのテーブルを操作するか指定します
         //::all();はデータベーステーブルの全てのデータを取得するためのメソッドです
@@ -30,20 +32,17 @@ class ProductController extends Controller
         // 商品一覧画面で会社の情報が必要なので、全ての会社の情報を取得します。
         $companies = Company::all();
         
-
-
-
         $this->products = new Product();
 
         $products = $this->products->getCompanyNameById();
 
-
-
         // Productモデルに基づいてクエリビルダを初期化
-        $query = Product::query();
+        $query = $products;
         // この行の後にクエリを逐次構築していきます。
         // そして、最終的にそのクエリを実行するためのメソッド（例：get(), first(), paginate() など）を呼び出すことで、データベースに対してクエリを実行します。
     
+        $query = Product::query();
+
         // 商品名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
         if($search = $request->search){
             $query->where('product_name', 'LIKE', "%{$search}%");
@@ -80,10 +79,10 @@ class ProductController extends Controller
         // ソートのパラメータが指定されている場合、そのカラムでソートを行う
         if($sort = $request->sort){
             $direction = $request->direction == 'desc' ? 'desc' : 'asc'; // directionがdescでない場合は、デフォルトでascとする
-    // もし $request->direction の値が 'desc' であれば、'desc' を返す。
-    // そうでなければ'asc' を返す
+        // もし $request->direction の値が 'desc' であれば、'desc' を返す。
+        // そうでなければ'asc' を返す
             $query->orderBy($sort, $direction);
-    // orderBy('カラム名', '並び順')
+        // orderBy('カラム名', '並び順')
         }
     
         // 上記の条件(クエリ）に基づいて商品を取得し、10件ごとのページネーションを適用
@@ -91,9 +90,7 @@ class ProductController extends Controller
     
 
         // 商品一覧ビューを表示し、取得した商品情報をビューに渡す
-        // return view('products.index', ['products' => $products], compact('companies'), compact('product'));
-
-        return view('products.index', compact('companies'), compact('products'));
+        return view('products.index', compact('companies', 'products'));
 
 
         // productsディレクトリのindex.blade.phpを表示させます

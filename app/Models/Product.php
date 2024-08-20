@@ -37,10 +37,17 @@ class Product extends Model
 
     //内部結合を行うためのメソッドです
     public function getCompanyNameById(){
+        // return DB::table('products')
+        //     ->join('companies', 'products.company_id', '=', 'companies.id')
+        //     ->get();
+
         return DB::table('products')
-            ->join('companies', 'products.company_id', '=', 'companies.id')
-            ->get();
-    }
+            ->join('companies', function($join) {
+              $join->on('products.company_id', 'companies.id');
+            })
+            ->get()/**->query**/;
+        }
+
 
     // Productモデルがsalesテーブルとリレーション関係を結ぶためのメソッドです
     public function sales()
