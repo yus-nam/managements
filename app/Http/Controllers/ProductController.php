@@ -22,7 +22,7 @@ class ProductController extends Controller
 
         // 全ての商品情報を取得しています。これが商品一覧画面で使われます。
         
-        // $products = Product::all();
+        $products = Product::all();
 
         //productsという名前は任意名です。何を格納しているのかわかりやすい名前を付けます
         //Productはモデル名を指しています。どのテーブルを操作するか指定します
@@ -30,18 +30,22 @@ class ProductController extends Controller
         //$productsにはProductテーブルの全てのデータが取得し格納されます
 
         // 商品一覧画面で会社の情報が必要なので、全ての会社の情報を取得します。
+        //会社情報をテーブルから取得
         $companies = Company::all();
         
-        $this->products = new Product();
+        // modelの新しいインスタンスを作成
+        $model = new Product();
 
-        $products = $this->products->getCompanyNameById();
+        // モデルを使って内部結合したデータを取得
+        // $products = $model->getCompanyNameById();
+
 
         // Productモデルに基づいてクエリビルダを初期化
-        $query = $products;
+        $query = $model->getCompanyNameById();;
         // この行の後にクエリを逐次構築していきます。
         // そして、最終的にそのクエリを実行するためのメソッド（例：get(), first(), paginate() など）を呼び出すことで、データベースに対してクエリを実行します。
     
-        $query = Product::query();
+        // $query = Product::query();
 
         // 商品名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
         if($search = $request->search){
@@ -57,36 +61,40 @@ class ProductController extends Controller
         }
         
         // 最小価格が指定されている場合、その価格以上の商品をクエリに追加
-        if($min_price = $request->min_price){
+        if($min_price = $request->min_price) {
             $query->where('price', '>=', $min_price);
         }
     
         // 最大価格が指定されている場合、その価格以下の商品をクエリに追加
-        if($max_price = $request->max_price){
+        if($max_price = $request->max_price) {
             $query->where('price', '<=', $max_price);
         }
     
         // 最小在庫数が指定されている場合、その在庫数以上の商品をクエリに追加
-        if($min_stock = $request->min_stock){
+        if($min_stock = $request->min_stock) {
             $query->where('stock', '>=', $min_stock);
         }
     
         // 最大在庫数が指定されている場合、その在庫数以下の商品をクエリに追加
-        if($max_stock = $request->max_stock){
+        if($max_stock = $request->max_stock) {
             $query->where('stock', '<=', $max_stock);
         }
     
         // ソートのパラメータが指定されている場合、そのカラムでソートを行う
-        if($sort = $request->sort){
-            $direction = $request->direction == 'desc' ? 'desc' : 'asc'; // directionがdescでない場合は、デフォルトでascとする
-        // もし $request->direction の値が 'desc' であれば、'desc' を返す。
-        // そうでなければ'asc' を返す
-            $query->orderBy($sort, $direction);
-        // orderBy('カラム名', '並び順')
+        if($sort = $request->sort) {
+            $direction = $request->direction == 'desc' ? 'desc' : 'asc'; //directionがdescでない場合は、デフォルトでascとする
+            $query->orderBy($sort, $direction); // orderBy('カラム名', '並び順')
+
+            // クエリを実行して結果を取得
+            $results = $query->get();
+
+            // 結果を返す
+            return $results;
+        
         }
     
         // 上記の条件(クエリ）に基づいて商品を取得し、10件ごとのページネーションを適用
-        $products = $query->paginate(10)->appends($request->all());
+        // $products = $query->paginate(10)->appends($request->all());
     
 
         // 商品一覧ビューを表示し、取得した商品情報をビューに渡す

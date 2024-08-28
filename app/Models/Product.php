@@ -41,12 +41,20 @@ class Product extends Model
         //     ->join('companies', 'products.company_id', '=', 'companies.id')
         //     ->get();
 
-        return DB::table('products')
-            ->join('companies', function($join) {
-              $join->on('products.company_id', 'companies.id');
-            })
-            ->get()/**->query**/;
-        }
+        // return DB::table('products')
+        //     ->join('companies', function($join) {
+        //       $join->on('products.company_id', 'companies.id');
+        //     })
+        //     /**->$query**/->get()/**->query**/;
+
+
+        $query = DB::table('products')
+        ->join('companies', 'products.company_id', '=', 'companies.id')
+        ->select('products.*', 'companies.company_name as company_name') // 'companies.name'を'company_name'として選択
+        ->get();
+
+    
+    }
 
 
     // Productモデルがsalesテーブルとリレーション関係を結ぶためのメソッドです
