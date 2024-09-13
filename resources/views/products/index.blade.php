@@ -25,12 +25,24 @@
         <div class="col-sm-3">
             <!-- <label for="company_name" class="form-label">メーカー</label> -->
             <select  name="company_name" class="form-select" placeholder="メーカー" id="company_name">
-                @foreach($companies as $company)
+                <!-- @foreach($companies as $company)
                     <option value="{{ $company->id }}" {{ $company->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
-                @endforeach
-            </select>
+                @endforeach -->
 
+            <option value="">全てのメーカー</option> <!-- デフォルトで全メーカーを表示 -->
+            
+            @foreach($companies as $company)
+                <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>
+                    {{ $company->company_name }}
+                </option>
+            @endforeach
+
+            </select>
         </div>
+
+
+
+
 
         <!-- 最小価格の入力欄 -->
         <div class="col-sm-12 col-md-2">
@@ -88,7 +100,8 @@
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->product_name }}</td>
                     <!-- <td>{{ $product->company_id}}</td> -->
-                    <td>{{ $product->company_name}}</td> 
+                    <!-- <td>{{ $product->company_name}}</td> -->
+                     <td>{{ $product->company->company_name ?? '未設定' }}</td> <!-- ここでリレーションを利用してメーカー名を表示 -->
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->stock }}</td>
                     <td>{{ $product->comment }}</td>
@@ -101,7 +114,7 @@
                             @csrf
                             @method('DELETE')
                           
-                            <button type="submit" class="btn btn-danger btn-sm mx-1"  onclick='return confirm("本当に削除しますか？")'>削除</button>
+                            <button type="submit" class="btn btn-danger btn-sm mx-1"  onclick='return confirm("Delete OK？")'>削除</button>
                         </form>
                     </td>
                 </tr>

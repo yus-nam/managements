@@ -18,100 +18,141 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        Log::info('Index method called', $request->all());
+    //     Log::info('Index method called', $request->all());
 
-        // 全ての商品情報を取得しています。これが商品一覧画面で使われます。
+    //     // 全ての商品情報を取得しています。これが商品一覧画面で使われます。
+    //     $products = Product::all();
+
+    //     // 商品一覧画面で会社の情報が必要なので、全ての会社の情報を取得します。
+    //     //会社情報をテーブルから取得
+    //     $companies = Company::all();
         
-        $products = Product::all();
-
-        //productsという名前は任意名です。何を格納しているのかわかりやすい名前を付けます
-        //Productはモデル名を指しています。どのテーブルを操作するか指定します
-        //::all();はデータベーステーブルの全てのデータを取得するためのメソッドです
-        //$productsにはProductテーブルの全てのデータが取得し格納されます
-
-        // 商品一覧画面で会社の情報が必要なので、全ての会社の情報を取得します。
-        //会社情報をテーブルから取得
-        $companies = Company::all();
-        
-        // modelの新しいインスタンスを作成
-        $model = new Product();
-
-        // モデルを使って内部結合したデータを取得
-        // $products = $model->getCompanyNameById();
+    //     // modelの新しいインスタンスを作成
+    //     $model = new Product();
+    //     // モデルを使って内部結合したデータを取得
+    //     // $products = $model->getCompanyNameById();
 
 
-        // Productモデルに基づいてクエリビルダを初期化
-        $query = $model->getCompanyNameById();;
-        // この行の後にクエリを逐次構築していきます。
-        // そして、最終的にそのクエリを実行するためのメソッド（例：get(), first(), paginate() など）を呼び出すことで、データベースに対してクエリを実行します。
+    //     // Productモデルに基づいてクエリビルダを初期化
+    //     $query = $model->getCompanyNameById();;
+    //     // この行の後にクエリを逐次構築していきます。
+    //     // そして、最終的にそのクエリを実行するためのメソッド（例：get(), first(), paginate() など）を呼び出すことで、データベースに対してクエリを実行します。
     
-        // $query = Product::query();
+    //     // $query = Product::query();
 
-        // 商品名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
-        if($search = $request->search){
-            $query->where('product_name', 'LIKE', "%{$search}%");
-            // ->orwhereHas('対象のモデル名', function ($query) use ($serach){
-            //     $query->where('対象のカラム名', 'LIKE', "%{$キーワードを代入した変数}%");
-            // })-get();
-        }
+    //     // 商品名の検索キーワードがある場合、そのキーワードを含む商品をクエリに追加
+    //     if($search = $request->search){
+    //         $query->where('product_name', 'LIKE', "%{$search}%");
+    //     }
 
-        // メーカー名が選択された場合、そのキーワードを含む商品をクエリに追加
-        if(isset($company_id)) {
-            $query->where('company_id' , $company_id);
-        }
+    //     // メーカー名が選択された場合、そのキーワードを含む商品をクエリに追加
+    //     if(isset($company_id)) {
+    //         $query->where('company_id' , $company_id);
+    //     }
         
-        // 最小価格が指定されている場合、その価格以上の商品をクエリに追加
-        if($min_price = $request->min_price) {
+    //     // 最小価格が指定されている場合、その価格以上の商品をクエリに追加
+    //     if($min_price = $request->min_price) {
+    //         $query->where('price', '>=', $min_price);
+    //     }
+    
+    //     // 最大価格が指定されている場合、その価格以下の商品をクエリに追加
+    //     if($max_price = $request->max_price) {
+    //         $query->where('price', '<=', $max_price);
+    //     }
+    
+    //     // 最小在庫数が指定されている場合、その在庫数以上の商品をクエリに追加
+    //     if($min_stock = $request->min_stock) {
+    //         $query->where('stock', '>=', $min_stock);
+    //     }
+    
+    //     // 最大在庫数が指定されている場合、その在庫数以下の商品をクエリに追加
+    //     if($max_stock = $request->max_stock) {
+    //         $query->where('stock', '<=', $max_stock);
+    //     }
+    
+    //     // ソートのパラメータが指定されている場合、そのカラムでソートを行う
+    //     if($sort = $request->sort) {
+    //         $direction = $request->direction == 'desc' ? 'desc' : 'asc'; //directionがdescでない場合は、デフォルトでascとする
+    //         $query->orderBy($sort, $direction); // orderBy('カラム名', '並び順')
+
+    //     // ページネーションを適用
+    //         $perPage = 10; // 1ページあたりのアイテム数
+    //         $page = $request->input('page', 1); // 現在のページ番号
+    //         $products = $query->paginate($perPage, ['*'], 'page', $page);
+
+
+    //         // クエリを実行して結果を取得
+    //         $results = $query->get();
+
+    //         // 結果を返す
+    //         return $results;
+        
+    //     }
+    
+    //     // 上記の条件(クエリ）に基づいて商品を取得し、10件ごとのページネーションを適用
+    //     // $products = $query->paginate(10)->appends($request->all());
+    
+    //     return view('products.index', [
+    //         'products' => $products,
+    //         'companies' => Company::all() // メーカーリストをビューに渡す
+    //     ]);
+    // }
+
+        Log::info('Index method called', $request->all());
+    
+        // 会社の情報を取得
+        $companies = Company::all();
+    
+        // クエリビルダの初期化
+        $query = Product::query();  // ここでクエリビルダを初期化します
+    
+        // 商品名での検索
+        if ($search = $request->search) {
+            $query->where('product_name', 'LIKE', "%{$search}%");
+        }
+    
+        // メーカーでの検索
+        if ($company_id = $request->company_name) {
+            $query->where('company_id', $company_id);
+        }
+    
+        // 最小価格
+        if ($min_price = $request->min_price) {
             $query->where('price', '>=', $min_price);
         }
     
-        // 最大価格が指定されている場合、その価格以下の商品をクエリに追加
-        if($max_price = $request->max_price) {
+        // 最大価格
+        if ($max_price = $request->max_price) {
             $query->where('price', '<=', $max_price);
         }
     
-        // 最小在庫数が指定されている場合、その在庫数以上の商品をクエリに追加
-        if($min_stock = $request->min_stock) {
+        // 最小在庫数
+        if ($min_stock = $request->min_stock) {
             $query->where('stock', '>=', $min_stock);
         }
     
-        // 最大在庫数が指定されている場合、その在庫数以下の商品をクエリに追加
-        if($max_stock = $request->max_stock) {
+        // 最大在庫数
+        if ($max_stock = $request->max_stock) {
             $query->where('stock', '<=', $max_stock);
         }
     
-        // ソートのパラメータが指定されている場合、そのカラムでソートを行う
-        if($sort = $request->sort) {
-            $direction = $request->direction == 'desc' ? 'desc' : 'asc'; //directionがdescでない場合は、デフォルトでascとする
-            $query->orderBy($sort, $direction); // orderBy('カラム名', '並び順')
-
-            // クエリを実行して結果を取得
-            $results = $query->get();
-
-            // 結果を返す
-            return $results;
-        
-        }
+        // ページネーションと検索条件を保持したリンクの生成
+        $products = $query->paginate(10)->appends($request->all()); // ここでページネーションと検索条件保持を追加
     
-        // 上記の条件(クエリ）に基づいて商品を取得し、10件ごとのページネーションを適用
-        // $products = $query->paginate(10)->appends($request->all());
-    
-
-        // 商品一覧ビューを表示し、取得した商品情報をビューに渡す
-        return view('products.index', compact('companies', 'products'));
-
-
-        // productsディレクトリのindex.blade.phpを表示させます
-        // compact('company')によって
-        // $companyという変数の内容が、ビューファイル側で利用できるようになります。
-        // ビューファイル内で$companiesと書くことでその変数の中身にアクセスできます。
+        // ビューへのデータを返す
+        return view('products.index', [
+            'products' => $products,
+            'companies' => Company::all() // 会社のデータもビューに渡す
+        ]);
     }
-
-
-
+    
 
 
     
+
+
+
+
 
     public function create()
     {
@@ -231,13 +272,6 @@ class ProductController extends Controller
         //トランザクション開始
         DB::beginTransaction();
 
-        // 画像ファイルインスタンス取得
-        // $image = $request->file('img_path');
-        // $image = $request->file('img_path');
-
-        // // 現在の画像へのパスをセット
-        // $filePath = $product->image;
-
         try{
         //画像変更の確認
             if(!empty($request->img_path)) {
@@ -288,16 +322,8 @@ class ProductController extends Controller
         // ビュー画面にメッセージを代入した変数(success)を送ります
     } 
 
-/** 更新機能でやりたいこと 
- * ① 商品一覧→編集機能ページからの項目編集と更新
- * ② 既に更新済み、あるいは更新中の項目が操作されたときにエラーが生じるようにしたい
- * 　あるいは同時に更新ボタンを押したときに先に操作された機能のみ実行されるようにしたい
- * **/
-
-    
 
 
-    //削除機能はちゃんと機能している
     public function destroy(Product $product)
     //(Product $product) 指定されたIDで商品をデータベースから自動的に検索し、その結果を $product に割り当てます。
     {
@@ -316,6 +342,8 @@ class ProductController extends Controller
 
             DB::rollBack();
             Log::error($e);
+            return redirect('/products')
+            ->with('error', 'Failed to deleted product');
 
         };
 
