@@ -15,7 +15,8 @@
                             
                             <div class="mb-3">
                                 <label for="product_id" class="form-label">商品ID</label>
-                                <input type="text" class="form-control" id="id" name="id" value="{{ $product->id }}" required>
+                                <!-- <input type="text" class="form-control" id="id" name="id" value="{{ $product->id }}" required> -->
+                                <input type="text" class="form-control" id="product_id" name="product_id" value="{{ $product->id }}" required>
                             </div>
 
                             <div class="mb-3">
@@ -27,7 +28,8 @@
                                 <label for="company_name" class="form-label">メーカー</label>
                                 <select class="form-select" id="company_name" name="company_name">
                                     @foreach($companies as $company)
-                                        <option value="{{ $company->id }}" {{ $company->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
+                                        <!-- <option value="{{ $company->id }}" {{ $company->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option> -->
+                                        <option value="{{ $company->id }}" {{ $company->id == $product->company_id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -55,8 +57,6 @@
 
                             <button type="submit" class="btn btn-success mt-1 mb-3">更新</button>
 
-                            <!-- <a href="{{ route('products.index') }}" class="btn btn-info mt-1 mb-3">編集</a> -->
-                            
                             <a href="{{ route('products.index') }}" class="btn btn-warning mt-1 mb-3">戻る</a>
 
 

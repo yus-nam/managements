@@ -148,12 +148,6 @@ class ProductController extends Controller
     
 
 
-    
-
-
-
-
-
     public function create()
     {
         // 商品作成画面で会社の情報が必要なので、全ての会社の情報を取得します。
@@ -243,7 +237,6 @@ class ProductController extends Controller
 
 
 
-
     public function edit(Product $product)
     {
         // 商品編集画面で会社の情報が必要なので、全ての会社の情報を取得します。
@@ -255,17 +248,25 @@ class ProductController extends Controller
 
     // 登録機能もちゃんと機能している→反応しなくなった
 
-
    
     
     public function update(Request $request, Product $product)
     {
         // バリデーション設定
-        $request->validate([
-            'product_name' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
-            'comment' => 'nullable', //'nullable'はnone許可
+        $validatedData = $request->validate([
+            // 'product_name' => 'required',
+            'product_name' => 'required|string|max:255',
+
+            //追加項目
+            'company_name' => 'required|exists:companies,id', // 'company_name'が'companies'テーブルの'id'に存在するか確認
+
+            // 'price' => 'required',
+            'price' => 'required|numeric',
+            // 'stock' => 'required',
+            'stock' => 'required|integer',
+            // 'comment' => 'nullable', //'nullable'はnone許可
+            'comment' => 'nullable|string',
+
             'img_path' => 'nullable|image|max:2048', // 画像ファイル、最大サイズ2048kb
         ]);
     
@@ -315,6 +316,19 @@ class ProductController extends Controller
         // 更新した商品の保存
         $product->update();
         // モデルインスタンスである$productに対して行われた変更をデータベースに保存するためのメソッド(機能)です。
+        
+        
+        //追加項目
+        $product->update([
+            'product_name' => $validatedData['product_name'],
+            'company_id' => $validatedData['company_name'], // 'company_name'を'company_id'として保存
+            'price' => $validatedData['price'],
+            'stock' => $validatedData['stock'],
+            'comment' => $validatedData['comment'],
+            // 'img_path'の処理が必要な場合はここに追加
+        ]);
+
+
 
         // 全ての処理が終わったら、商品一覧画面にリダイレクト
         return redirect()->route('products.index')
