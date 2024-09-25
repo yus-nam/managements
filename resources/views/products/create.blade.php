@@ -11,6 +11,9 @@
         <div class="mb-3">
             <label for="product_name" class="form-label">商品名:</label>
             <input id="product_name" type="text" name="product_name" class="form-control" required>
+            @if($errors->has('product_name'))
+                <p>{{ $errors->first('product_name') }}</p>
+            @endif
         </div>
 
         <div class="mb-3">
@@ -25,23 +28,35 @@
         <div class="mb-3">
             <label for="price" class="form-label">価格:</label>
             <input id="price" type="text" name="price" class="form-control" required>
+            @if($errors->has('price'))
+                <p>{{ $errors->first('price') }}</p>
+            @endif
+            
         </div>
 
         <div class="mb-3">
             <label for="stock" class="form-label">在庫数:</label>
             <input id="stock" type="text" name="stock" class="form-control" required>
+            @if($errors->has('stock'))
+                <p>{{ $errors->first('stock') }}</p>
+            @endif
         </div>
 
         <div class="mb-3">
             <label for="comment" class="form-label">コメント:</label>
             <textarea id="comment" name="comment" class="form-control" rows="3">
-
             </textarea>
+            @if($errors->has('comment'))
+                <p>{{ $errors->first('comment') }}</p>
+            @endif
         </div>
 
         <div class="mb-3">
             <label for="img_path" class="form-label">商品画像:</label>
             <input id="img_path" type="file" name="img_path" class="form-control">
+            @if($errors->has('img_path'))
+                <p>{{ $errors->first('img_path') }}</p>
+            @endif
         </div>
 
         <button type="submit" class="btn btn-success mb-3">登録</button>
