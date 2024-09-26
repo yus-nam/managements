@@ -38,15 +38,26 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// //一覧画面の表示
+// Route::get('/products/index/{product}', 'HomeController@index')->name('index');
+
+
+// 新規製品作成フォーム表示
+Route::get('/products/create/{product}', 'ProductController@create')->name('create');
+    
+// 新規登録
+Route::post('/products/store', 'ProductController@store')->name('store');
 
 
 //詳細画面の表示
-Route::get('/products/show/{product}', 'ProductsController@show')->name('show');
+Route::get('/products/show/{product}', 'ProductController@show')->name('show');
 
 
 // 編集画面の表示
-Route::get('/products/edit/{product}', 'ProductsController@edit')->name('edit');
+Route::get('/products/edit/{product}', 'ProductController@edit')->name('edit');
 
 
-Auth::routes();
+// Auth::routes();
