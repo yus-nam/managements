@@ -39,16 +39,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/list', [App\Http\Controllers\HomeController::class, 'index'])->name('list');
 
 // //一覧画面の表示
 // Route::get('/products/index/{product}', 'HomeController@index')->name('index');
 
 
-// 新規製品作成フォーム表示
+// 登録フォーム表示
 Route::get('/products/create/{product}', 'ProductController@create')->name('create');
     
-// 新規登録
+// 登録機能
 Route::post('/products/store', 'ProductController@store')->name('store');
 
 
