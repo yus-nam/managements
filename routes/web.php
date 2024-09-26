@@ -59,5 +59,3 @@ Route::get('/products/show/{product}', 'ProductController@show')->name('show');
 // 編集画面の表示
 Route::get('/products/edit/{product}', 'ProductController@edit')->name('edit');
 
-
-// Auth::routes();
