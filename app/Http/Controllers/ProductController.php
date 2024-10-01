@@ -174,18 +174,16 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             // 'product_name' => 'required',
             'product_name' => 'required|string|max:255',
-
             //追加項目
             'company_name' => 'required|exists:companies,id', // 'company_name'が'companies'テーブルの'id'に存在するか確認
-
             // 'price' => 'required',
             'price' => 'required|numeric',
             // 'stock' => 'required',
             'stock' => 'required|integer',
             // 'comment' => 'nullable', //'nullable'はnone許可
             'comment' => 'nullable|string',
-
-            'img_path' => 'nullable|image|max:2048', // 画像ファイル、最大サイズ2048kb
+            // 画像ファイル、最大サイズ2048kb
+            'img_path' => 'nullable|image|max:2048', 
         ]);
     
         //トランザクション開始
@@ -203,7 +201,6 @@ class ProductController extends Controller
                 // $request->file('path')->storeAs('public',$filename);
                 $request->file('img_path')->storeAs('storage', $filename, 'public');
 
-                
                 // $post->path = '/storage/' . $filename;
                 $product->img_path = '/storage/'. $filename; 
                 
@@ -228,7 +225,6 @@ class ProductController extends Controller
         };
        
         $request->session()->regenerateToken();
-
         
         //追加項目
         $product->update([
@@ -238,8 +234,6 @@ class ProductController extends Controller
             'stock' => $validatedData['stock'],
             'comment' => $validatedData['comment'],
         ]);
-
-
 
         // 全ての処理が終わったら、商品編集画面にリダイレクト
         return redirect()->route('products.edit', $product)
