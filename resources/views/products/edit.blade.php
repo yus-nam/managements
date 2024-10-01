@@ -57,7 +57,10 @@
 
                             <button type="submit" class="btn btn-success mt-1 mb-3">更新</button>
 
-                            <a href="{{ route('products.index') }}" class="btn btn-warning mt-1 mb-3">戻る</a>
+                            <!-- <a href="{{ route('products.index') }}" class="btn btn-warning mt-1 mb-3">戻る</a> -->
+
+                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-warning mt-1 mb-3">戻る</a>
+
 
 
                         </form>
