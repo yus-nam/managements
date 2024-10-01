@@ -241,8 +241,8 @@ class ProductController extends Controller
 
 
 
-        // 全ての処理が終わったら、商品一覧画面にリダイレクト
-        return redirect()->route('products.index')
+        // 全ての処理が終わったら、商品編集画面にリダイレクト
+        return redirect()->route('products.edit', $product)
             ->with('success', 'Product updated successfully');
         // ビュー画面にメッセージを代入した変数(success)を送ります
     } 
