@@ -31,31 +31,40 @@ Route::get('/', function () {
 // companies.index のように、英語の正しい複数形になります。
 
 
+// Auth::routes();
+
+// Route::group(['middleware' => 'auth'], function () {
+//     Route::resource('products', ProductController::class);
+// });
+
+
 Auth::routes();
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::resource('products', ProductController::class);
-});
-
 
 
 Route::get('/list', [App\Http\Controllers\HomeController::class, 'index'])->name('list');
 
-// //一覧画面の表示
-// Route::get('/products/index/{product}', 'HomeController@index')->name('index');
 
 
-// 登録フォーム表示
-Route::get('/products/create/{product}', 'ProductController@create')->name('create');
+Route::group(['middleware' => 'auth'], function () {
     
-// 登録機能
-Route::post('/products/store', 'ProductController@store')->name('store');
+    // 商品一覧
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
+    // 商品登録フォーム表示
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+    
+    // 商品登録処理
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
-//詳細画面の表示
-Route::get('/products/show/{product}', 'ProductController@show')->name('show');
+    // 商品詳細表示
+    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
+    // 商品編集フォーム表示
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    
+    // 商品更新処理
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 
-// 編集画面の表示
-Route::get('/products/edit/{product}', 'ProductController@edit')->name('edit');
-
+    // 商品削除処理
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+});

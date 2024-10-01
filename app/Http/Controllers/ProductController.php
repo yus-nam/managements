@@ -137,7 +137,7 @@ class ProductController extends Controller
         $request->session()->regenerateToken();
 
         // 商品一覧画面にリダイレクト
-        return redirect('products');
+        return redirect('products/create');
 
     }
 

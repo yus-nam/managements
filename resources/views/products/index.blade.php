@@ -114,7 +114,7 @@
                             @csrf
                             @method('DELETE')
                           
-                            <button type="submit" class="btn btn-danger btn-sm mx-1"  onclick='return confirm("Delete OK？")'>削除</button>
+                            <button type="submit" class="btn btn-danger btn-sm mx-1"  onclick='return confirm("削除してもいいですか？")'>削除</button>
                         </form>
                     </td>
                 </tr>
