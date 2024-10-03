@@ -41,9 +41,6 @@
         </div>
 
 
-
-
-
         <!-- 最小価格の入力欄 -->
         <div class="col-sm-12 col-md-2">
             <input type="number" name="min_price" class="form-control" placeholder="最小価格" value="{{ request('min_price') }}">

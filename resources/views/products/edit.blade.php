@@ -21,7 +21,10 @@
 
                             <div class="mb-3">
                                 <label for="product_name" class="form-label">商品名</label>
-                                <input type="text" class="form-control" id="product_name" name="product_name" value="{{ $product->product_name }}" required>
+                                <input type="text" class="form-control" id="product_name" name="product_name" value="{{ $product->product_name }}">
+                                    @if($errors->has('product_name'))
+                                        <p>{{ $errors->first('product_name') }}</p>
+                                    @endif
                             </div>
 
                             <div class="mb-3">
@@ -35,13 +38,19 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="price" class="form-label">金額</label>
-                                <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}" required>
+                                <label for="price" class="form-label">価格</label>
+                                <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}">
+                                @if($errors->has('price'))
+                                    <p>{{ $errors->first('price') }}</p>
+                                @endif
                             </div>
 
                             <div class="mb-3">
                                 <label for="stock" class="form-label">在庫数</label>
-                                <input type="number" class="form-control" id="stock" name="stock" value="{{ $product->stock }}" required>
+                                <input type="number" class="form-control" id="stock" name="stock" value="{{ $product->stock }}">
+                                @if($errors->has('stock'))
+                                    <p>{{ $errors->first('stock') }}</p>
+                                @endif
                             </div>
 
                             <div class="mb-3">
@@ -50,7 +59,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="img_path" class="form-label">商品画像:</label>
+                                <label for="img_path" class="form-label">商品画像</label>
                                 <input id="img_path" type="file" name="img_path" class="form-control">
                                 <img src="{{ asset($product->img_path) }}" alt="商品画像" class="product-image">
                             </div>
