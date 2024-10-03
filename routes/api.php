@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/purchase', 'SalesController@purchase'); //追記する
+Route::post('/purchase', 'SalesController@purchase');
 

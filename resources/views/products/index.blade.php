@@ -72,7 +72,6 @@
                 <th>操作</th>
             </tr>
 
-
             </thead>
             <tbody>
             @foreach ($products as $product)
@@ -90,7 +89,6 @@
                         <form method="POST" action="{{ route('products.destroy', $product) }}" class="d-inline">
                             @csrf
                             @method('DELETE')
-                          
                             <button type="submit" class="btn btn-danger btn-sm mx-1"  onclick='return confirm("削除してもいいですか？")'>削除</button>
                         </form>
                     </td>

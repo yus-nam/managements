@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Company;
 use Illuminate\Http\Request; 
-use DB;
+// use DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -18,49 +18,39 @@ class ProductController extends Controller
 
         Log::info('Index method called', $request->all());
     
-        // 会社の情報を取得
         $companies = Company::all();
     
-        // クエリビルダの初期化
         $query = Product::query();  // ここでクエリビルダを初期化します
     
-        // 商品名での検索
         if ($search = $request->search) {
             $query->where('product_name', 'LIKE', "%{$search}%");
         }
     
-        // メーカーでの検索
         if ($company_id = $request->company_name) {
             $query->where('company_id', $company_id);
         }
-    
-        // 最小価格
+
         if ($min_price = $request->min_price) {
             $query->where('price', '>=', $min_price);
         }
     
-        // 最大価格
         if ($max_price = $request->max_price) {
             $query->where('price', '<=', $max_price);
         }
     
-        // 最小在庫数
         if ($min_stock = $request->min_stock) {
             $query->where('stock', '>=', $min_stock);
         }
     
-        // 最大在庫数
         if ($max_stock = $request->max_stock) {
             $query->where('stock', '<=', $max_stock);
         }
+
+        $products = $query->paginate(10)->appends($request->all());
     
-        // ページネーションと検索条件を保持したリンクの生成
-        $products = $query->paginate(10)->appends($request->all()); // ここでページネーションと検索条件保持を追加
-    
-        // ビューへのデータを返す
         return view('products.index', [
             'products' => $products,
-            'companies' => Company::all() // 会社のデータもビューに渡す
+            'companies' => Company::all()
         ]);
     }
     
@@ -171,15 +161,17 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try{
-        //画像変更の確認
+            
             if($request->hasFile('img_path')) {
+
                 $file = $request->file('img_path');
 
                 $filename = $file->getClientOriginalName();
 
                 $request->file('img_path')->storeAs('storage', $filename, 'public');
 
-                $product->img_path = '/storage/'. $filename; 
+                $product->img_path = '/storage/'. $filename;
+
             }
 
                 $product->product_name = $request->product_name;
@@ -188,8 +180,6 @@ class ProductController extends Controller
                 $product->comment = $request->comment;
         
             DB::commit();
-            
-            // }
 
         } catch(Exception $e) { 
             DB::rollBack();
@@ -214,7 +204,6 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-
         //トランザクション開始
         DB::beginTransaction();
         try{
@@ -235,6 +224,5 @@ class ProductController extends Controller
         return redirect('/products')
             ->with('success', 'Product deleted successfully');
     }
-
 
 }

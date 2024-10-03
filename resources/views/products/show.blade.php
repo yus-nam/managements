@@ -27,6 +27,7 @@
         <dt class="col-sm-3">商品画像</dt>
         <dd class="col-sm-9"><img src="{{ asset($product->img_path) }}" width="300"></dd>
     </dl>
+
     <a href="{{ route('products.edit', $product) }}" class="btn btn-success mx-1">編集</a>
 
     <a href="{{ route('products.index') }}" class="btn btn-warning mt-15">戻る</a>
