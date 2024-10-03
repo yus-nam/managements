@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SalesController; //追記する
+use App\Http\Controllers\SalesController;
 
 
 /*

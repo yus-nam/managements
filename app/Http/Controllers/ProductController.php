@@ -20,7 +20,7 @@ class ProductController extends Controller
     
         $companies = Company::all();
     
-        $query = Product::query();  // ここでクエリビルダを初期化します
+        $query = Product::query();
     
         if ($search = $request->search) {
             $query->where('product_name', 'LIKE', "%{$search}%");
@@ -58,39 +58,30 @@ class ProductController extends Controller
 
     public function create()
     {
-        // 商品作成画面で会社の情報が必要なので、全ての会社の情報を取得します。
         $companies = Company::all();
 
-        // 商品作成画面を表示します。その際に、先ほど取得した全ての会社情報を画面に渡します。
         return view('products.create', compact('companies'));
     }
 
-
-
-    // 送られたデータをデータベースに保存するメソッド
+    
     public function store(Request $request) 
     {
 
         Log::info('Store method called', $request->all());
 
-        // バリデーション
         $request->validate([
-            'company_id' => 'required', //requiredは必須入力
+            'company_id' => 'required',
             'product_name' => 'required',
             'price' => 'required',
             'stock' => 'required',
-            'comment' => 'nullable', //'nullable'はそのフィールドが未入力でもOKという意味です
-            'img_path' => 'nullable|image|max:2048', // 画像ファイル、最大サイズ2048kb
+            'comment' => 'nullable',
+            'img_path' => 'nullable|image|max:2048',
         ]);
 
-        // 必須項目が一部未入力の場合、フォームの画面を再表示かつ、警告メッセージを表示
         Log::info('Validation passed', $request->all());
 
-
-        //新規のプロダクトインスタンスを作成
         $model = new Product();
 
-        //トランザクション開始
         DB::beginTransaction();
 
         try{
@@ -111,32 +102,25 @@ class ProductController extends Controller
             
             $model->registProduct($request,$img_path);
 
-            
             DB::commit();
 
-        } catch(Exception $e) { /** 例外処理 **/
+        } catch(Exception $e) {
 
             DB::rollBack();
             Log::error($e);
 
         };
 
-        //二重送信防止
         $request->session()->regenerateToken();
 
-        // 商品一覧画面にリダイレクト
         return redirect('products/create');
 
     }
-
-
 
     public function show(Product $product)
     {
             return view('products.show', ['product' => $product]);
     }
-
-
 
     public function edit(Product $product)
     {
@@ -147,7 +131,7 @@ class ProductController extends Controller
     
     public function update(Request $request, Product $product)
     {
-        // バリデーション設定
+
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:255',
             'company_name' => 'required|exists:companies,id',
@@ -156,8 +140,7 @@ class ProductController extends Controller
             'comment' => 'nullable|string',
             'img_path' => 'nullable|image|max:2048', 
         ]);
-    
-        //トランザクション開始
+
         DB::beginTransaction();
 
         try{
@@ -189,7 +172,6 @@ class ProductController extends Controller
        
         $request->session()->regenerateToken();
         
-        //追加項目
         $product->update([
             'product_name' => $validatedData['product_name'],
             'company_id' => $validatedData['company_name'],
@@ -204,7 +186,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        //トランザクション開始
+
         DB::beginTransaction();
         try{
 
