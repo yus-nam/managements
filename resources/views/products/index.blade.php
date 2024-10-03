@@ -6,30 +6,20 @@
 
     <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">新規登録</a>
 
-<!-- 検索フォームのセクション -->
 <div class="search mt-5">
     
-    <!-- 検索のタイトル -->
     <h2>検索条件で絞り込み</h2>
-    
-    <!-- 検索フォーム。GETメソッドで、商品一覧のルートにデータを送信 -->
+
     <form action="{{ route('products.index') }}" method="GET" class="row g-3">
         @csrf
-        <!-- 商品名検索用の入力欄 -->
         <div class="col-sm-12 col-md-3">
             <input type="text" name="search" class="form-control" placeholder="商品名" value="{{ request('search') }}">
         </div>
-
         
-        <!-- メーカー名検索用の入力欄 -->
         <div class="col-sm-3">
-            <!-- <label for="company_name" class="form-label">メーカー</label> -->
             <select  name="company_name" class="form-select" placeholder="メーカー" id="company_name">
-                <!-- @foreach($companies as $company)
-                    <option value="{{ $company->id }}" {{ $company->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
-                @endforeach -->
-
-            <option value="">全てのメーカー</option> <!-- デフォルトで全メーカーを表示 -->
+                
+            <option value="">全てのメーカー</option>
             
             @foreach($companies as $company)
                 <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>
@@ -40,35 +30,29 @@
             </select>
         </div>
 
-
-        <!-- 最小価格の入力欄 -->
         <div class="col-sm-12 col-md-2">
             <input type="number" name="min_price" class="form-control" placeholder="最小価格" value="{{ request('min_price') }}">
         </div>
 
-        <!-- 最大価格の入力欄 -->
         <div class="col-sm-12 col-md-2">
             <input type="number" name="max_price" class="form-control" placeholder="最大価格" value="{{ request('max_price') }}">
         </div>
 
-        <!-- 最小在庫数の入力欄 -->
         <div class="col-sm-12 col-md-2">
             <input type="number" name="min_stock" class="form-control" placeholder="最小在庫" value="{{ request('min_stock') }}">
         </div>
 
-        <!-- 最大在庫数の入力欄 -->
         <div class="col-sm-12 col-md-2">
             <input type="number" name="max_stock" class="form-control" placeholder="最大在庫" value="{{ request('max_stock') }}">
         </div>
 
-        <!-- 絞り込みボタン -->
         <div class="col-sm-12 col-md-1">
             <button class="btn btn-success" type="submit">検索</button>
         </div>
     </form>
 </div>
 
-<!-- 検索条件をリセットするためのリンクボタン -->
+
 <a href="{{ route('products.index') }}" class="btn btn-outline-secondary mt-3">検索条件を元に戻す</a>
 
 
@@ -80,7 +64,6 @@
             <tr>
                 <th>商品ID</th>
                 <th>商品名</th>
-                <!-- <th>メーカーID</th> -->
                 <th>メーカー</th>
                 <th>価格</th>
                 <th>在庫数</th>
@@ -96,16 +79,13 @@
                 <tr>
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->product_name }}</td>
-                    <!-- <td>{{ $product->company_id}}</td> -->
-                    <!-- <td>{{ $product->company_name}}</td> -->
-                     <td>{{ $product->company->company_name ?? '未設定' }}</td> <!-- ここでリレーションを利用してメーカー名を表示 -->
+                     <td>{{ $product->company->company_name ?? '未設定' }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->stock }}</td>
                     <td>{{ $product->comment }}</td>
                     <td><img src="{{ asset($product->img_path) }}" alt="商品画像" width="100"></td>
                     </td>
                     <td>
-                        <!-- <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細表示</a> -->
                         <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細</a>
                         <form method="POST" action="{{ route('products.destroy', $product) }}" class="d-inline">
                             @csrf

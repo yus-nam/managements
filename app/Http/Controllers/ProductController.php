@@ -118,11 +118,9 @@ class ProductController extends Controller
                 $img_path = null;
             
             }
-            // dd($img_path); /*img_pathには画像がちゃんと引き渡されている*/
             
             $model->registProduct($request,$img_path);
 
-            // dd($request);
             
             DB::commit();
 
@@ -144,45 +142,28 @@ class ProductController extends Controller
 
 
     public function show(Product $product)
-    //(Product $product) 指定されたIDで商品をデータベースから自動的に検索し、その結果を $product に割り当てます。
     {
-        // 商品詳細画面を表示します。その際に、商品の詳細情報を画面に渡します。
             return view('products.show', ['product' => $product]);
-        //　ビューへproductという変数が使えるように値を渡している
-        // ['product' => $product]でビューでproductを使えるようにしている
-        // compact('products')と行うことは同じであるためどちらでも良い
     }
 
 
 
     public function edit(Product $product)
     {
-        // 商品編集画面で会社の情報が必要なので、全ての会社の情報を取得します。
         $companies = Company::all();
 
-        // 商品編集画面の表示
         return view('products.edit', compact('product', 'companies'));
     }
-
-    // 登録機能もちゃんと機能している→反応しなくなった
-
-   
     
     public function update(Request $request, Product $product)
     {
         // バリデーション設定
         $validatedData = $request->validate([
-            // 'product_name' => 'required',
             'product_name' => 'required|string|max:255',
-            //追加項目
-            'company_name' => 'required|exists:companies,id', // 'company_name'が'companies'テーブルの'id'に存在するか確認
-            // 'price' => 'required',
+            'company_name' => 'required|exists:companies,id',
             'price' => 'required|numeric',
-            // 'stock' => 'required',
             'stock' => 'required|integer',
-            // 'comment' => 'nullable', //'nullable'はnone許可
             'comment' => 'nullable|string',
-            // 画像ファイル、最大サイズ2048kb
             'img_path' => 'nullable|image|max:2048', 
         ]);
     
@@ -191,24 +172,16 @@ class ProductController extends Controller
 
         try{
         //画像変更の確認
-            if(!empty($request->img_path)) {
-                // $file = $request->file('path');
+            if($request->hasFile('img_path')) {
                 $file = $request->file('img_path');
 
-                // $filename = $file->getClientOriginalName();
                 $filename = $file->getClientOriginalName();
 
-                // $request->file('path')->storeAs('public',$filename);
                 $request->file('img_path')->storeAs('storage', $filename, 'public');
 
-                // $post->path = '/storage/' . $filename;
                 $product->img_path = '/storage/'. $filename; 
-                
-                // $img_path = $filePath;
-
             }
 
-            // 商品情報の更新、既存の情報を新しい情報に書き換える
                 $product->product_name = $request->product_name;
                 $product->price = $request->price;
                 $product->stock = $request->stock;
@@ -235,24 +208,17 @@ class ProductController extends Controller
             'comment' => $validatedData['comment'],
         ]);
 
-        // 全ての処理が終わったら、商品編集画面にリダイレクト
         return redirect()->route('products.edit', $product)
             ->with('success', 'Product updated successfully');
-        // ビュー画面にメッセージを代入した変数(success)を送ります
     } 
 
-
-
     public function destroy(Product $product)
-    //(Product $product) 指定されたIDで商品をデータベースから自動的に検索し、その結果を $product に割り当てます。
     {
 
         //トランザクション開始
         DB::beginTransaction();
-
         try{
 
-            // 商品の削除
             $product->delete();
 
             DB::commit();
@@ -266,15 +232,8 @@ class ProductController extends Controller
 
         };
 
-            // 商品の削除
-            // $product->delete();
-
-    //     // 全ての処理が終わったら、商品一覧画面にリダイレクト
         return redirect('/products')
             ->with('success', 'Product deleted successfully');
-    //     //URLの/productsを検索します
-    //     //products/がなくても検索できます
-    // }
     }
 
 

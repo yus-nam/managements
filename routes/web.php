@@ -16,34 +16,16 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    // ウェブサイトのホームページ（'/'のURL）にアクセスした場合のルートです
     if (Auth::check()) {
-        // ログイン状態ならば
         return redirect()->route('products.index');
-        // 商品一覧ページ（ProductControllerのindexメソッドが処理）へリダイレクトします
     } else {
-        // ログイン状態でなければ
         return redirect()->route('login');
-        //　ログイン画面へリダイレクトします
     }
 });
-// もしCompanyControllerだった場合は
-// companies.index のように、英語の正しい複数形になります。
-
-
-// Auth::routes();
-
-// Route::group(['middleware' => 'auth'], function () {
-//     Route::resource('products', ProductController::class);
-// });
-
 
 Auth::routes();
 
-
 Route::get('/list', [App\Http\Controllers\HomeController::class, 'index'])->name('list');
-
-
 
 Route::group(['middleware' => 'auth'], function () {
     
