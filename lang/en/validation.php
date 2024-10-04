@@ -180,11 +180,7 @@ return [
     */
 
     'attributes' => [
-        'email' => 'メールアドレス',
-        'password' => 'パスワード',
-        'product_name' => '商品名',
-        'price' => '価格',
-        'stock' => '在庫数',
+        
         
     ],
     'required' => ':attributeが入力されていません。',
