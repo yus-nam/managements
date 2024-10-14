@@ -2,9 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SalesController;
-// use App\Http\Controllers\VerController;
-
+// use App\Http\Controllers\SalesController;
+use App\Http\Controllers\API\SaleController;
 
 
 /*
@@ -22,7 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/sales', 'SalesController@purchase');
+// Route::get('/sales/purchase', [SaleController::class, 'purchase']);
 
-// Route::get('ver','API\VerController@index');
-
+// セールス関連のルート
+Route::prefix('sales')->group(function () {
+    Route::get('/purchase', [SaleController::class, 'purchase']);
+    // 他のセールス関連ルートもここに追加できます
+});
