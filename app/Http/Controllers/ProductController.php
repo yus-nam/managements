@@ -70,8 +70,8 @@ class ProductController extends Controller
         Log::info('Store method called', $request->all());
 
         $request->validate([
-            'company_id' => 'required',
             'product_name' => 'required',
+            'company_id' => 'required',
             'price' => 'required',
             'stock' => 'required',
             'comment' => 'nullable',
@@ -117,10 +117,12 @@ class ProductController extends Controller
 
     }
 
+    
     public function show(Product $product)
     {
             return view('products.show', ['product' => $product]);
     }
+
 
     public function edit(Product $product)
     {
@@ -129,6 +131,7 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'companies'));
     }
     
+
     public function update(Request $request, Product $product)
     {
 
@@ -183,6 +186,7 @@ class ProductController extends Controller
         return redirect()->route('products.edit', $product)
             ->with('success', 'Product updated successfully');
     } 
+
 
     public function destroy(Product $product)
     {

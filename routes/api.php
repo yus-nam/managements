@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\SalesController;
 use App\Http\Controllers\API\SaleController;
+use App\Http\Controllers\API\ProductController;
+
 
 
 /*
@@ -28,3 +30,6 @@ Route::prefix('sales')->group(function () {
     Route::get('/purchase', [SaleController::class, 'purchase']);
     // 他のセールス関連ルートもここに追加できます
 });
+
+
+ Route::get('/products', [ProductController::class, 'index']);
