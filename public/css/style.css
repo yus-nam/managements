@@ -1,0 +1,12 @@
+.column-sorting {
+    color: black;
+    /* font-weight: bold; */
+}
+
+.column-sorting:hover {
+    color: purple;
+}
+
+.column-sorting:active {
+    color: red;
+}

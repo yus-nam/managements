@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
 
         Log::info('Index method called', $request->all());
-    
+
         $companies = Company::all();
     
         $query = Product::query();
@@ -46,11 +46,19 @@ class ProductController extends Controller
             $query->where('stock', '<=', $max_stock);
         }
 
+        //ソート条件を追加
+        $sortBy = $request->get('sort_by', 'id');
+        $sortOrder = $request->get('sort_order', 'asc');
+    
+        $query->orderBy($sortBy, $sortOrder); // ソートを適用
+    
         $products = $query->paginate(10)->appends($request->all());
     
         return view('products.index', [
             'products' => $products,
-            'companies' => Company::all()
+            'companies' => Company::all(),
+            'sort_by' => $sortBy,
+            'sort_order' => $sortOrder,
         ]);
     }
     

@@ -1,0 +1,10 @@
+.column-sorting {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+&:hover {
+    color: red;
+    transform: scale(1.1);
+    text-decoration: underline;
+}
