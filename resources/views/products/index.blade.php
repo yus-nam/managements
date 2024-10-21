@@ -151,10 +151,10 @@
                     </td>
                     <td>
                         <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細</a>
-                        <form method="POST" action="{{ route('products.destroy', $product) }}" class="d-inline">
+                        <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm mx-1"  onclick='return confirm("削除してもいいですか？")'>削除</button>
+                            <button type="submit" class="btn btn-danger btn-sm mx-1">削除</button>
                         </form>
                     </td>
                 </tr>
@@ -166,27 +166,36 @@
     {{ $products->appends(request()->query())->links() }}
 
 </div>
+
 <script>
     $(document).ready(function(){
-        $('#search-form').on('submit', function(e) {
-            e.preventDefault();
+    $('.delete-form').on('submit', function(e) {
+        e.preventDefault();
 
-            let formData = $(this).serialize();
+        if (confirm('削除してもいいですか？')) {
+            var form = $(this);
+            var actionUrl = form.attr('action');
 
             $.ajax({
-                url: '{{ route("products.index") }}',
-                method: 'GET',
-                data: formData,
+                url: actionUrl,
+                type: 'POST',
+                data: form.serialize(),
                 success: function(response) {
-                    // ページ全体を置き換え
-                    $('body').html(response);
+                    if (response.success) {
+                        alert(response.success); // 成功メッセージの表示
+                        form.closest('tr').remove(); // 行をDOMから削除
+                    } else {
+                        alert('削除に失敗しました');
+                    }
                 },
                 error: function(xhr) {
-                    console.log(xhr.responseText);
+                    alert('削除に失敗しました: ' + (xhr.responseJSON ? xhr.responseJSON.error : '不明なエラー'));
                 }
             });
-        });
+        }
     });
+});
+
 </script>
 
 @endsection

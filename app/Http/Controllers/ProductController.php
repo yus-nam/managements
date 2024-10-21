@@ -214,6 +214,9 @@ class ProductController extends Controller
 
             DB::commit();
 
+            // 削除成功のレスポンスをJSONで返す
+            return response()->json(['success' => 'Product deleted successfully']);
+
         } catch(Exception $e) {
 
             DB::rollBack();
@@ -223,8 +226,8 @@ class ProductController extends Controller
 
         };
 
-        return redirect('/products')
-            ->with('success', 'Product deleted successfully');
+        // return redirect('/products')
+        //     ->with('success', 'Product deleted successfully');
     }
 
 }
