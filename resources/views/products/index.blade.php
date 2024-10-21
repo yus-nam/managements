@@ -11,7 +11,7 @@
     
     <h2>検索条件で絞り込み</h2>
 
-    <form action="{{ route('products.index') }}" method="GET" class="row g-3">
+    <form action="{{ route('products.index') }}" method="GET" class="row g-3" id="search-form">
         @csrf
         <div class="col-sm-12 col-md-3">
             <input type="text" name="search" class="form-control" placeholder="商品名" value="{{ request('search') }}">
@@ -57,7 +57,7 @@
 <a href="{{ route('products.index') }}" class="btn btn-outline-secondary mt-3">検索条件を元に戻す</a>
 
 
-    <div class="products mt-5">
+    <div class="products mt-5" id="product-list">
         <h2>商品情報</h2>
         <table class="table table-striped">
             <thead>
@@ -166,4 +166,27 @@
     {{ $products->appends(request()->query())->links() }}
 
 </div>
+<script>
+    $(document).ready(function(){
+        $('#search-form').on('submit', function(e) {
+            e.preventDefault();
+
+            let formData = $(this).serialize();
+
+            $.ajax({
+                url: '{{ route("products.index") }}',
+                method: 'GET',
+                data: formData,
+                success: function(response) {
+                    // ページ全体を置き換え
+                    $('body').html(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+
 @endsection

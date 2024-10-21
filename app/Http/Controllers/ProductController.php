@@ -15,17 +15,16 @@ class ProductController extends Controller
     
     public function index(Request $request)
     {
-
         Log::info('Index method called', $request->all());
 
         $companies = Company::all();
-    
+        
         $query = Product::query();
-    
+        
         if ($search = $request->search) {
             $query->where('product_name', 'LIKE', "%{$search}%");
         }
-    
+        
         if ($company_id = $request->company_name) {
             $query->where('company_id', $company_id);
         }
@@ -33,37 +32,46 @@ class ProductController extends Controller
         if ($min_price = $request->min_price) {
             $query->where('price', '>=', $min_price);
         }
-    
+        
         if ($max_price = $request->max_price) {
             $query->where('price', '<=', $max_price);
         }
-    
+        
         if ($min_stock = $request->min_stock) {
             $query->where('stock', '>=', $min_stock);
         }
-    
+        
         if ($max_stock = $request->max_stock) {
             $query->where('stock', '<=', $max_stock);
         }
 
-        //ソート条件を追加
         $sortBy = $request->get('sort_by', 'id');
         $sortOrder = $request->get('sort_order', 'asc');
-    
-        $query->orderBy($sortBy, $sortOrder); // ソートを適用
-    
+
+        $query->orderBy($sortBy, $sortOrder);
+
         $products = $query->paginate(10)->appends($request->all());
-    
+
+        // Ajaxリクエストの際も全体のHTMLを返す
+        if ($request->ajax()) {
+            return view('products.index', [
+                'products' => $products,
+                'companies' => $companies,
+                'sort_by' => $sortBy,
+                'sort_order' => $sortOrder,
+            ]);
+        }
+
         return view('products.index', [
             'products' => $products,
-            'companies' => Company::all(),
+            'companies' => $companies,
             'sort_by' => $sortBy,
             'sort_order' => $sortOrder,
         ]);
     }
+
+
     
-
-
     public function create()
     {
         $companies = Company::all();
@@ -124,7 +132,7 @@ class ProductController extends Controller
         return redirect('products/create');
 
     }
-
+    
     
     public function show(Product $product)
     {

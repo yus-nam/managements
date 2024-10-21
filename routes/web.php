@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +29,8 @@ Auth::routes();
 Route::get('/list', [App\Http\Controllers\HomeController::class, 'index'])->name('list');
 
 Route::group(['middleware' => 'auth'], function () {
+    
+    Route::get('/search', [ProductController::class, 'search'])->name('search');
     
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
