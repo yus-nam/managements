@@ -136,7 +136,7 @@ class ProductController extends Controller
     
     public function show(Product $product)
     {
-            return view('products.show', ['product' => $product]);
+        return view('products.show', ['product' => $product]);
     }
 
 
@@ -167,11 +167,8 @@ class ProductController extends Controller
             if($request->hasFile('img_path')) {
 
                 $file = $request->file('img_path');
-
                 $filename = $file->getClientOriginalName();
-
                 $request->file('img_path')->storeAs('storage', $filename, 'public');
-
                 $product->img_path = '/storage/'. $filename;
 
             }
@@ -214,7 +211,6 @@ class ProductController extends Controller
 
             DB::commit();
 
-            // 削除成功のレスポンスをJSONで返す
             return response()->json(['success' => 'Product deleted successfully']);
 
         } catch(Exception $e) {
@@ -226,8 +222,6 @@ class ProductController extends Controller
 
         };
 
-        // return redirect('/products')
-        //     ->with('success', 'Product deleted successfully');
     }
 
 }

@@ -16,7 +16,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // 全ての製品を取得
         return response()->json(Product::all(), 200);
     }
 
@@ -37,8 +36,6 @@ class ProductController extends Controller
             'comment' => 'nullable|string',
             'img_path' => 'nullable|image|max:2048',
         ]);
-
-        // 製品を作成
         $product = Product::create($validatedData);
         return response()->json($product, 201);
     }
@@ -52,10 +49,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        // 特定の製品を取得
         $product = Product::findOrFail($id);
         return response()->json($product, 200);
-
     }
 
 
@@ -76,8 +71,6 @@ class ProductController extends Controller
             'comment' => 'nullable|string',
             'img_path' => 'nullable|image|max:2048', 
         ]);
-
-        // 製品を更新
         $product = Product::findOrFail($id);
         $product->update($validatedData);
         return response()->json($product, 200);
@@ -92,7 +85,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        // 製品を削除
         Product::destroy($id);
         return response()->json(null, 204);
     }

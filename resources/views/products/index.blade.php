@@ -182,8 +182,8 @@
                 data: form.serialize(),
                 success: function(response) {
                     if (response.success) {
-                        alert(response.success); // 成功メッセージの表示
-                        form.closest('tr').remove(); // 行をDOMから削除
+                        alert(response.success);
+                        form.closest('tr').remove();
                     } else {
                         alert('削除に失敗しました');
                     }
