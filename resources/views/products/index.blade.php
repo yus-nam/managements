@@ -208,11 +208,11 @@ $(document).ready(function(){
                         alert(response.success);
                         form.closest('tr').remove();
                     } else {
-                        alert('削除に失敗しました');
+                        alert('delete failed');
                     }
                 },
                 error: function(xhr) {
-                    alert('削除に失敗しました: ' + (xhr.responseJSON ? xhr.responseJSON.error : '不明なエラー'));
+                    alert('delete failed: ' + (xhr.responseJSON ? xhr.responseJSON.error : 'unknown error'));
                 }
             });
         }
