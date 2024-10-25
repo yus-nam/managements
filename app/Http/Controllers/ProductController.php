@@ -47,14 +47,13 @@ class ProductController extends Controller
 
         $sortBy = $request->get('sort_by', 'id');
         $sortOrder = $request->get('sort_order', 'asc');
-
         $query->orderBy($sortBy, $sortOrder);
 
         $products = $query->paginate(10)->appends($request->all());
 
         // Ajaxリクエストの際も全体のHTMLを返す
         if ($request->ajax()) {
-            return view('products.index', [
+            return view('products.partials.product_list', [
                 'products' => $products,
                 'companies' => $companies,
                 'sort_by' => $sortBy,

@@ -168,11 +168,34 @@
 </div>
 
 <script>
+
+$(document).ready(function(){
+        $('#search-form').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: "{{ route('products.index') }}",
+                type: 'GET',
+                data: formData,
+                dataType: 'html',
+                success: function(response) {
+                    $('#product-list').html($(response).find('#product-list').html());
+                    $('ul.pagination').html($(response).find('ul.pagination').html());
+                },
+                error: function(xhr) {
+                    alert('検索に失敗しました: ' + xhr.statusText);
+                }
+            });
+        });
+    });
+
     $(document).ready(function(){
     $('.delete-form').on('submit', function(e) {
         e.preventDefault();
 
-        if (confirm('削除してもいいですか？')) {
+        if (confirm('delete OK？')) {
             var form = $(this);
             var actionUrl = form.attr('action');
 
