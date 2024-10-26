@@ -169,28 +169,6 @@
 
 <script>
 
-$(document).ready(function(){
-        $('#search-form').on('submit', function(e) {
-            e.preventDefault();
-
-            var formData = $(this).serialize();
-
-            $.ajax({
-                url: "{{ route('products.index') }}",
-                type: 'GET',
-                data: formData,
-                dataType: 'html',
-                success: function(response) {
-                    $('#product-list').html($(response).find('#product-list').html());
-                    $('ul.pagination').html($(response).find('ul.pagination').html());
-                },
-                error: function(xhr) {
-                    alert('検索に失敗しました: ' + xhr.statusText);
-                }
-            });
-        });
-    });
-
     $(document).ready(function(){
     $('.delete-form').on('submit', function(e) {
         e.preventDefault();
@@ -212,7 +190,8 @@ $(document).ready(function(){
                     }
                 },
                 error: function(xhr) {
-                    alert('delete failed: ' + (xhr.responseJSON ? xhr.responseJSON.error : 'unknown error'));
+                    // alert('delete failed: ' + (xhr.responseJSON ? xhr.responseJSON.error : 'unknown error'));
+                    alert('search failed: ' + xhr.status + ' - ' + xhr.responseText);
                 }
             });
         }
