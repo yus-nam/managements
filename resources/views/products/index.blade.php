@@ -166,8 +166,26 @@
     {{ $products->appends(request()->query())->links() }}
 
 </div>
-
 <script>
+    $(document).ready(function() {
+        // 検索フォームの非同期処理
+        $('#search-form').on('submit', function(e) {
+            e.preventDefault(); // フォームの通常送信を防止
+            var formData = $(this).serialize(); // フォームのデータを取得
+
+            $.ajax({
+                url: '{{ route("products.index") }}',
+                type: 'GET',
+                data: formData,
+                success: function(response) {
+                    $('#product-list').html(response); // 結果を表示
+                },
+                error: function(xhr) {
+                    alert('検索に失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
+                }
+            });
+        });
+    });
 
     $(document).ready(function(){
     $('.delete-form').on('submit', function(e) {

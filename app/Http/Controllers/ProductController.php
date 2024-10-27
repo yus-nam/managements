@@ -51,7 +51,6 @@ class ProductController extends Controller
 
         $products = $query->paginate(10)->appends($request->all());
 
-        // Ajaxリクエストの際も全体のHTMLを返す
         if ($request->ajax()) {
             return view('products.partials.product_list', [
                 'products' => $products,
@@ -68,8 +67,7 @@ class ProductController extends Controller
             'sort_order' => $sortOrder,
         ]);
     }
-
-
+    
     
     public function create()
     {

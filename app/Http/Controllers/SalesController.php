@@ -22,6 +22,10 @@ class SalesController extends Controller
             return response()->json(['message' => '商品が在庫不足です'], 400);
         }
 
+        DB::beginTransaction();
+
+        try {
+
         $product->stock -= $quantity;
         $product->save();
 
@@ -32,7 +36,16 @@ class SalesController extends Controller
 
         $sale->save();
 
-        return response()->json(['message' => '購入成功']);
-    }
+        DB::commit();
 
+        return response()->json(['message' => '購入成功']);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json(['message' => '購入に失敗しました', 'error' => $e->getMessage()], 500);
+
+        }
+    }
 }
