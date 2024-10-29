@@ -19,7 +19,6 @@ class ProductController extends Controller
         return response()->json(Product::all(), 200);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
