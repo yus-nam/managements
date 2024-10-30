@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller 
 {
-    
     public function index(Request $request)
     {
         Log::info('Index method called', $request->all());

@@ -191,9 +191,6 @@
     $(document).on('click', '.delete-button', function(event) {
         event.preventDefault();
     
-    
-
-
         if (confirm('delete OK？')) {
             var form = $(this);
             var actionUrl = form.attr('action');

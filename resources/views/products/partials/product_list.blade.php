@@ -38,3 +38,16 @@
     </table>
 </div>
 {{ $products->appends(request()->query())->links() }}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteForms = document.querySelectorAll('.delete-form');
+    deleteForms.forEach(form => {
+        form.addEventListener('submit', function(event) {
+            if (!confirm('本当に削除しますか？')) {
+                event.preventDefault();
+            }
+        });
+    });
+});
+</script>
