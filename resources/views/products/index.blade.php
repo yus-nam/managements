@@ -154,7 +154,8 @@
                         <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm mx-1">削除</button>
+                            <!-- <button type="submit" class="btn btn-danger btn-sm mx-1">削除</button> -->
+                            <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button">削除</button>
                         </form>
                     </td>
                 </tr>
@@ -187,9 +188,11 @@
         });
     });
 
-    $(document).ready(function(){
-    $('.delete-form').on('submit', function(e) {
-        e.preventDefault();
+    $(document).on('click', '.delete-button', function(event) {
+        event.preventDefault();
+    
+    
+
 
         if (confirm('delete OK？')) {
             var form = $(this);
