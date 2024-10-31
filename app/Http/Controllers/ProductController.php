@@ -213,9 +213,9 @@ class ProductController extends Controller
 
             DB::rollBack();
             Log::error($e);
-            return redirect('/products')
-            ->with('error', 'Failed to deleted product');
-
+            // return redirect('/products')
+            // ->with('error', 'Failed to deleted product');
+            return response()->json(['error' => 'Failed to delete product'], 500); // 非同期リクエストに対応
         };
 
     }
