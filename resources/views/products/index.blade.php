@@ -182,16 +182,16 @@
                     $('#product-list').html(response);
                 },
                 error: function(xhr) {
-                    alert('検索に失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
+                    alert('search failed: ' + xhr.status + ' - ' + xhr.responseText);
                 }
             });
         });
-    });
+    
 
     // $(document).on('click', '.delete-button', function(event) {
     // event.preventDefault();
 
-    //     if (confirm('本当に削除しますか？')) {
+    //     if (confirm('delete OK？')) {
     //         const button = $(this);
     //         const actionUrl = button.closest('form').attr('action');
 
@@ -207,43 +207,41 @@
     //                     alert(response.success);
     //                     button.closest('tr').remove();
     //                 } else {
-    //                     alert('削除に失敗しました');
+    //                     alert('delete failed');
     //                 }
     //             },
     //             error: function(xhr) {
-    //                 alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
+    //                 alert('error occurred: ' + xhr.status + ' - ' + xhr.responseText);
     //             }
     //         });
     //     }
     // });
 
-    $(document).ready(function() {
-    // 非同期削除処理
         $(document).on('click', '.delete-button', function(event) {
-            event.preventDefault(); // 通常のフォーム送信を防ぐ
+            event.preventDefault();
 
-            if (confirm('本当に削除しますか？')) {
-                // フォームの取得
+            if (confirm('delete OK？')) {
+                
                 var form = $(this).closest('form');
-                var actionUrl = form.attr('action'); // フォームのアクションURL取得
+                var actionUrl = form.attr('action');
 
                 $.ajax({
                     url: actionUrl,
                     type: 'POST',
                     data: {
                         _method: 'DELETE',
-                        _token: '{{ csrf_token() }}' // CSRFトークンを追加
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         if (response.success) {
-                            alert(response.success); // 成功メッセージを表示
-                            form.closest('tr').remove(); // 行を削除
+                            alert(response.success);
+                            form.closest('tr').remove();
                         } else {
-                            alert('削除に失敗しました');
+                            alert('delete failed');
                         }
                     },
                     error: function(xhr) {
-                        alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
+                        alert('error occurred: ' + xhr.status + ' - ' + xhr.responseText);
                     }
                 });
             }
