@@ -198,26 +198,18 @@ class ProductController extends Controller
 
 
     public function destroy(Product $product)
-    {
+{
+    DB::beginTransaction();
+    try {
+        $product->delete(); // 商品を削除
 
-        DB::beginTransaction();
-        try{
-
-            $product->delete();
-
-            DB::commit();
-
-            return response()->json(['success' => 'Product deleted successfully']);
-
-        } catch(Exception $e) {
-
-            DB::rollBack();
-            Log::error($e);
-            // return redirect('/products')
-            // ->with('error', 'Failed to deleted product');
-            return response()->json(['error' => 'Failed to delete product'], 500); // 非同期リクエストに対応
-        };
-
+        DB::commit();
+        return response()->json(['success' => 'Product deleted successfully']);
+    } catch (Exception $e) {
+        DB::rollBack();
+        Log::error($e);
+        return response()->json(['error' => 'Failed to delete product'], 500); // エラーレスポンス
     }
+}
 
 }
