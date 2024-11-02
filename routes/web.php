@@ -29,7 +29,7 @@ Route::get('/list', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'auth'], function () {
     
-    Route::get('/search', [ProductController::class, 'search'])->name('search');
+    Route::post('/search', [ProductController::class, 'search'])->name('search');
     
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
