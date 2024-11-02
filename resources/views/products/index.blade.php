@@ -12,7 +12,7 @@
     <h2>検索条件で絞り込み</h2>
 
     <form action="{{ route('products.index') }}" method="GET" class="row g-3" id="search-form">
-        @csrf
+        
         <div class="col-sm-12 col-md-3">
             <input type="text" name="search" class="form-control" placeholder="商品名" value="{{ request('search') }}">
         </div>
@@ -167,7 +167,6 @@
     {{ $products->appends(request()->query())->links() }}
 
 </div>
-
 <script>
     $(document).ready(function() {
 
@@ -187,43 +186,37 @@
                 }
             });
         });
-        
-    $(document).on('click', '.delete-button', function(event) {
-        event.preventDefault();
 
-        if (confirm('delete OK？')) {
-            var form = $(this).closest('form');
-            var actionUrl = form.attr('action');
 
-            $.ajax({
-                url: actionUrl,
-                type: 'POST',
-                data: {
-                    _method: 'DELETE',
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.success);
-                        form.closest('tr').remove();
-                    } else {
-                        alert('delete failed');
+        $(document).on('click', '.delete-button', function(event) {
+            event.preventDefault();
+
+            if (confirm('delete OK？')) {
+                var form = $(this).closest('form');
+                var actionUrl = form.attr('action');
+
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: {
+                        _method: 'DELETE',
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.success);
+                            form.closest('tr').remove();
+                        } else {
+                            alert('delete failed');
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('error occurred: ' + xhr.status + ' - ' + xhr.responseText);
                     }
-                },
-                error: function(xhr) {
-                    alert('error occurred: ' + xhr.status + ' - ' + xhr.responseText);
-                }
-            });
-        } else {
-            return;
-        }
+                });
+            } 
+        });
     });
-
-
-    });
-
-
-
 
 });
 
