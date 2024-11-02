@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
 
-class ProductController extends Controller 
+class ProductController extends Controller
 {
     public function index(Request $request)
     {
@@ -198,18 +198,18 @@ class ProductController extends Controller
 
 
     public function destroy(Product $product)
-{
-    DB::beginTransaction();
-    try {
-        $product->delete(); // 商品を削除
+    {
+        DB::beginTransaction();
+        try {
+            $product->delete(); // 商品を削除
 
-        DB::commit();
-        return response()->json(['success' => 'Product deleted successfully']);
-    } catch (Exception $e) {
-        DB::rollBack();
-        Log::error($e);
-        return response()->json(['error' => 'Failed to delete product'], 500); // エラーレスポンス
+            DB::commit();
+            return response()->json(['success' => 'Product deleted successfully']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e);
+            return response()->json(['error' => 'Failed to delete product'], 500); // エラーレスポンス
+        }
     }
-}
 
 }
