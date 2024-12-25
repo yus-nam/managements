@@ -151,6 +151,7 @@
                     </td>
                     <td>
                         <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細</a>
+                        
                         <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline">
                             @csrf
                             @method('DELETE')
@@ -167,6 +168,7 @@
     {{ $products->appends(request()->query())->links() }}
 
 </div>
+<!-- 
 <script>
     $(document).ready(function() {
 
@@ -179,7 +181,7 @@
                 type: 'GET',
                 data: formData,
                 success: function(response) {
-                    $('#product-list').html(response);
+                    $('#product-list').html(response).addClass('delete-button');
                 },
                 error: function(xhr) {
                     alert('search failed: ' + xhr.status + ' - ' + xhr.responseText);
@@ -187,8 +189,7 @@
             });
         });
 
-
-        $(document).on('click', '.delete-button', function(event) {
+        $(document).on('click', 'form .delete-button', function(event) {
             event.preventDefault();
 
             if (confirm('delete OK？')) {
@@ -196,6 +197,70 @@
                 var actionUrl = form.attr('action');
 
                 $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.success);
+                            form.closest('tr').remove();
+                        } else {
+                        alert('削除に失敗しました');
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
+                    }
+                });
+            }
+        });
+
+        // ソート機能の処理
+        $(document).on('click', 'a.column-sorting', function(event) {
+            event.preventDefault(); // リンクのデフォルト動作を停止
+            var href = $(this).attr('href'); // クリックしたリンクのURLを取得
+            window.location.href = href; // そのURLにリダイレクト
+        });
+
+    });
+}
+
+</script> -->
+
+<script>
+    $(document).ready(function() {
+        // 検索処理
+        $('#search-form').on('submit', function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: '{{ route("products.index") }}',
+                type: 'GET',
+                data: formData,
+                success: function(response) {
+                    // 検索結果を反映
+                    $('#product-list').html(response);
+                    // ソート機能を再適用する必要がある場合は不要
+                },
+                error: function(xhr) {
+                    alert('search failed: ' + xhr.status + ' - ' + xhr.responseText);
+                }
+            });
+        });
+
+        // 削除機能
+        $(document).on('click', 'form .delete-button', function(event) {
+            event.preventDefault();
+
+            if (confirm('delete OK？')) {
+                var form = $(this).closest('form');
+                var actionUrl = form.attr('action');
+
+    $.ajax({
                     url: actionUrl,
                     type: 'POST',
                     data: {
@@ -207,19 +272,46 @@
                             alert(response.success);
                             form.closest('tr').remove();
                         } else {
-                            alert('delete failed');
+                            alert('削除に失敗しました');
                         }
                     },
                     error: function(xhr) {
-                        alert('error occurred: ' + xhr.status + ' - ' + xhr.responseText);
+                        alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
                     }
                 });
-            } 
+            }
+        });
+
+        // ソート機能
+        $(document).on('click', 'a.column-sorting', function(event) {
+            event.preventDefault();
+            var href = $(this).attr('href');
+
+            $.ajax({
+                url: href,
+                type: 'GET',
+                success: function(response) {
+                    // ソート結果を反映
+                    $('#product-list').html(response);
+                },
+                error: function(xhr) {
+                    alert('ソートに失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
+                }
+            });
         });
     });
-
-});
-
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 @endsection

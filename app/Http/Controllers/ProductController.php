@@ -66,8 +66,7 @@ class ProductController extends Controller
             'sort_order' => $sortOrder,
         ]);
     }
-    
-    
+        
     public function create()
     {
         $companies = Company::all();
@@ -146,7 +145,6 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:255',
             'company_name' => 'required|exists:companies,id',
