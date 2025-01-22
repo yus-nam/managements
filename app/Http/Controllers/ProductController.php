@@ -183,7 +183,6 @@ class ProductController extends Controller
             ->with('success', 'Product updated successfully');
     } 
 
-
     public function destroy(Product $product)
     {
         DB::beginTransaction();

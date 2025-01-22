@@ -188,72 +188,64 @@
             });
         });
 
-        // $(document).on('click', 'form .delete-button', function(event) {
-        //     event.preventDefault();
+        // $(document).on('click', '.delete-button', function (event) {
+        //     event.preventDefault();  // デフォルトのフォーム送信を防ぐ
+        //     if (confirm('本当に削除しますか？')) {
+        //         const form = $(this).closest('form');  // 削除ボタンが含まれるフォームを取得
+        //         const actionUrl = form.attr('action'); // フォームのaction URLを取得
 
-        //     if (confirm('delete OK？')) {
-        //         var form = $(this).closest('form');
-        //         var actionUrl = form.attr('action');
-
+        //         // AJAXリクエストを送信
         //         $.ajax({
         //             url: actionUrl,
         //             type: 'POST',
         //             data: {
-        //             _method: 'DELETE',
-        //             _token: '{{ csrf_token() }}'
+        //                 _method: 'DELETE',  // DELETEメソッドを指定
+        //                 _token: '{{ csrf_token() }}'  // CSRFトークンを送信
         //             },
-        //             success: function(response) {
+        //             success: function (response) {
         //                 if (response.success) {
-        //                 alert(response.success);
-        //                     form.closest('tr').remove();
+        //                     alert('削除が成功しました。');
+        //                     form.closest('tr').remove();  // 削除した行を画面から削除
         //                 } else {
-        //                 alert('削除に失敗しました');
+        //                     alert('削除に失敗しました。');
         //                 }
         //             },
-        //             error: function(xhr) {
+        //             error: function (xhr) {
         //                 alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
         //             }
         //         });
         //     }
         // });
 
-
         $(document).on('click', '.delete-button', function (event) {
-            event.preventDefault();  // デフォルトのフォーム送信を防ぐ
+            event.preventDefault(); // デフォルトのフォーム送信を防ぐ
             if (confirm('本当に削除しますか？')) {
-                const form = $(this).closest('form');  // 削除ボタンが含まれるフォームを取得
-                const actionUrl = form.attr('action'); // フォームのaction URLを取得
+            const form = $(this).closest('form');  // 削除ボタンが含まれるフォームを取得
+            const actionUrl = form.attr('action'); // フォームのaction URLを取得
 
-                // AJAXリクエストを送信
-                $.ajax({
-                    url: actionUrl,
-                    type: 'POST',
-                    data: {
-                        _method: 'DELETE',  // DELETEメソッドを指定
-                        _token: '{{ csrf_token() }}'  // CSRFトークンを送信
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            alert('削除が成功しました。');
-                            form.closest('tr').remove();  // 削除した行を画面から削除
-                        } else {
-                            alert('削除に失敗しました。');
-                        }
-                    },
-                    error: function (xhr) {
-                        alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
-                    }
-                });
+            // AJAXリクエストを送信
+            $.ajax({
+                url: actionUrl,
+                type: 'POST',
+                data: {
+                _method: 'DELETE',  // DELETEメソッドを指定
+                _token: '{{ csrf_token() }}'  // CSRFトークンを送信
+                },
+                success: function (response) {
+                if (response.success) {
+                    alert('削除が成功しました。');
+                    form.closest('tr').remove();  // 削除した行を画面から削除
+                } else {
+                    alert('削除に失敗しました。');
+                }
+                },
+                error: function (xhr) {
+                    alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
+                }
+            });
             }
         });
 
-
-        // // ソート機能の処理
-        // $(document).on('click', 'a.column-sorting', function(event) {
-        //     event.preventDefault(); // リンクのデフォルト動作を停止
-        //     var href = $(this).attr('href'); // クリックしたリンクのURLを取得
-        //     window.location.href = href; // そのURLにリダイレクト
-        // });
 
         $('#search-form').on('submit', function (e) {
         e.preventDefault();

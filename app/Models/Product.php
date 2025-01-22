@@ -6,13 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\support\Facades\DB;
 
-
 class Product extends Model
 {
-    
     use HasFactory;
-
-        protected $fillable = [
+    protected $fillable = [
         'product_name',
         'company_id',
         'company_name',
@@ -27,14 +24,11 @@ class Product extends Model
         'img_path' => ' '
     ];
 
-
-    public function getCompanyNameById(){
-      
+    public function getCompanyNameById(){  
         $query = DB::table('products')
         ->join('companies', 'products.company_id', '=', 'companies.id')
         ->select('products.*', 'companies.company_name as company_name')
         ->get();
-
     }
 
     public function sales()
@@ -48,9 +42,7 @@ class Product extends Model
     }
 
     public function registProduct($request, $img_path) {
-
         DB::table('products')->insert([
-
             'product_name' => $request->product_name,
             'company_id' => $request->company_id,
             'price' => $request->price,
