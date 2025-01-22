@@ -153,35 +153,25 @@ class ProductController extends Controller
             'comment' => 'nullable|string',
             'img_path' => 'nullable|image|max:2048', 
         ]);
-
         DB::beginTransaction();
-
         try{
-            
             if($request->hasFile('img_path')) {
 
                 $file = $request->file('img_path');
                 $filename = $file->getClientOriginalName();
                 $request->file('img_path')->storeAs('storage', $filename, 'public');
                 $product->img_path = '/storage/'. $filename;
-
             }
-
                 $product->product_name = $request->product_name;
                 $product->price = $request->price;
                 $product->stock = $request->stock;
                 $product->comment = $request->comment;
-        
             DB::commit();
-
         } catch(Exception $e) { 
             DB::rollBack();
             Log::error($e);
-        
         };
-       
         $request->session()->regenerateToken();
-        
         $product->update([
             'product_name' => $validatedData['product_name'],
             'company_id' => $validatedData['company_name'],
@@ -189,7 +179,6 @@ class ProductController extends Controller
             'stock' => $validatedData['stock'],
             'comment' => $validatedData['comment'],
         ]);
-
         return redirect()->route('products.edit', $product)
             ->with('success', 'Product updated successfully');
     } 
@@ -200,7 +189,6 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
             $product->delete(); // 商品を削除
-
             DB::commit();
             return response()->json(['success' => 'Product deleted successfully']);
         } catch (Exception $e) {

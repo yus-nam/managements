@@ -248,7 +248,6 @@
         });
 
 
-
         // // ソート機能の処理
         // $(document).on('click', 'a.column-sorting', function(event) {
         //     event.preventDefault(); // リンクのデフォルト動作を停止
@@ -273,7 +272,7 @@
             }
 
     });
-}
+
 
 </script>
 
