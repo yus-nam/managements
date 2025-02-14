@@ -188,7 +188,7 @@
             });
         });
 
-        /**　　削除機能のコード　　 */
+        /**  削除機能のコード　　 */
         $(document).on('click', '.delete-button', function (event) {
             event.preventDefault(); // デフォルトのフォーム送信を防ぐ
             if (confirm('本当に削除しますか？')) {
@@ -250,15 +250,7 @@
         
         });
 
-        $(document).on('click', '.column-sorting', function bindPaginationEvent() {
-                $(document)./～ でページネーションの処理
-            
-        })
-
-        $(document).on('click', '.column-sorting', function bindDeleteEvent() {
-                $(document).～ でページネーションの処理
-            
-        })
+        
 
 
 
