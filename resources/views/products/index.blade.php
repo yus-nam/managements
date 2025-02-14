@@ -180,7 +180,7 @@
                 type: 'GET',
                 data: formData,
                 success: function(response) {
-                    $('#product-list').html(response).addClass('delete-button');
+                    $('#product-list').html(response).addClass('delete-button')**/;
                 },
                 error: function(xhr) {
                     alert('search failed: ' + xhr.status + ' - ' + xhr.responseText);
@@ -188,35 +188,7 @@
             });
         });
 
-        // $(document).on('click', '.delete-button', function (event) {
-        //     event.preventDefault();  // デフォルトのフォーム送信を防ぐ
-        //     if (confirm('本当に削除しますか？')) {
-        //         const form = $(this).closest('form');  // 削除ボタンが含まれるフォームを取得
-        //         const actionUrl = form.attr('action'); // フォームのaction URLを取得
-
-        //         // AJAXリクエストを送信
-        //         $.ajax({
-        //             url: actionUrl,
-        //             type: 'POST',
-        //             data: {
-        //                 _method: 'DELETE',  // DELETEメソッドを指定
-        //                 _token: '{{ csrf_token() }}'  // CSRFトークンを送信
-        //             },
-        //             success: function (response) {
-        //                 if (response.success) {
-        //                     alert('削除が成功しました。');
-        //                     form.closest('tr').remove();  // 削除した行を画面から削除
-        //                 } else {
-        //                     alert('削除に失敗しました。');
-        //                 }
-        //             },
-        //             error: function (xhr) {
-        //                 alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
-        //             }
-        //         });
-        //     }
-        // });
-
+        /**　　削除機能のコード　　 */
         $(document).on('click', '.delete-button', function (event) {
             event.preventDefault(); // デフォルトのフォーム送信を防ぐ
             if (confirm('本当に削除しますか？')) {
@@ -246,25 +218,56 @@
             }
         });
 
-
         $('#search-form').on('submit', function (e) {
         e.preventDefault();
-
         const formData = $(this).serialize();
+            $.ajax({
+                url: '{{ route("products.index") }}',
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    $('#product-list').html(response); // 商品リストを更新
+                },
+                error: function (xhr) {
+                    alert('検索に失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
+                }
+            });
+        });
 
-        $.ajax({
-            url: '{{ route("products.index") }}',
-            type: 'GET',
-            data: formData,
-            success: function (response) {
-                $('#product-list').html(response); // 商品リストを更新
-            },
-            error: function (xhr) {
-                alert('検索に失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
-            }
+        $(document).on('click', '.column-sorting', function(event) { 
+            event.preventDefault(); // デフォルトのリンク動作を防ぐ
+            var url = $(this).attr('href'); // ソートリンクのURLを取得
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    $('#product-list').html($(response).find('#product-list').html()); // 部分更新
+                },
+                error: function(xhr) {
+                    alert('ソートに失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
+                }
+            });
+        
+        });
+
+        $(document).on('click', '.column-sorting', function bindPaginationEvent() {
+                $(document)./～ でページネーションの処理
+            
+        })
+
+        $(document).on('click', '.column-sorting', function bindDeleteEvent() {
+                $(document).～ でページネーションの処理
+            
+        })
+
+
+
+
+
+
+
 
     });
-
 
 </script>
 

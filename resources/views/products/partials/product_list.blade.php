@@ -4,11 +4,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>商品名</th>
-                <th>メーカー</th>
-                <th>価格</th>
-                <th>在庫数</th>
+                <th a class="column-sorting">ID</th>
+                <th a class="column-sorting">商品名</th>
+                <th a class="column-sorting">メーカー</th>
+                <th a class="column-sorting">価格</th>
+                <th a class="column-sorting">在庫数</th>
                 <th>コメント</th>
                 <th>商品画像</th>
                 <th>操作</th>

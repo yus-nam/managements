@@ -15,15 +15,13 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         Log::info('Index method called', $request->all());
-
         $companies = Company::all();
-        
         $query = Product::query();
         
         if ($search = $request->search) {
             $query->where('product_name', 'LIKE', "%{$search}%");
         }
-        
+
         if ($company_id = $request->company_name) {
             $query->where('company_id', $company_id);
         }
@@ -58,7 +56,6 @@ class ProductController extends Controller
                 'sort_order' => $sortOrder,
             ]);
         }
-
         return view('products.index', [
             'products' => $products,
             'companies' => $companies,
@@ -70,14 +67,12 @@ class ProductController extends Controller
     public function create()
     {
         $companies = Company::all();
-
         return view('products.create', compact('companies'));
     }
 
     
     public function store(Request $request) 
     {
-
         Log::info('Store method called', $request->all());
 
         $request->validate([
