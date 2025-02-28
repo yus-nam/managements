@@ -222,20 +222,32 @@
             });
         }
 
-        function bindPaginationEvent(){
-            $(document).～　でページネーションの処理
-            $.ajax({ /**～**/
-                bindDeleteEvent();  // 削除イベントを再適用
-                bindPaginationEvent(); // ページネーションイベントも再適用
+        /** ページネーション機能のコード */
+        function bindPaginationEvent() {
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault(); // ページネーションリンクのデフォルト動作を防ぐ
+                var url = $(this).attr('href'); // 次のページのURLを取得
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                    // レスポンスの中から#product-listの内容を更新
+                    $('#product-list').html($(response).find('#product-list').html());
+                        bindDeleteEvent();  // 削除イベントを再バインド
+                        bindPaginationEvent(); // ページネーションイベントを再バインド
+                    },
+                    error: function(xhr) {
+                        alert('Pagination failed: ' + xhr.status + ' - ' + xhr.responseText);
+                    }
+                });
             });
         }
 
-        function bindPaginationEvent() {　
-    
-
         $(document).ready(function() {
-            bindDeleteEvent();
-        });
+            bindDeleteEvent();  // 初回の削除イベントをバインド
+            bindPaginationEvent(); // 初回のページネーションイベントをバインド
+        
 
         $('#search-form').on('submit', function (e) {
             e.preventDefault();

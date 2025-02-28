@@ -182,13 +182,13 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
-            $product->delete(); // 商品を削除
+            $product->delete();
             DB::commit();
             return response()->json(['success' => 'Product deleted successfully']);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e);
-            return response()->json(['error' => 'Failed to delete product'], 500); // エラーレスポンス
+            return response()->json(['error' => 'Failed to delete product'], 500);
         }
     }
 
