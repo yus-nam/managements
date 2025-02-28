@@ -70,7 +70,6 @@ class ProductController extends Controller
         return view('products.create', compact('companies'));
     }
 
-    
     public function store(Request $request) 
     {
         Log::info('Store method called', $request->all());
@@ -122,13 +121,11 @@ class ProductController extends Controller
         return redirect('products/create');
 
     }
-    
-    
+        
     public function show(Product $product)
     {
         return view('products.show', ['product' => $product]);
     }
-
 
     public function edit(Product $product)
     {
@@ -136,7 +133,6 @@ class ProductController extends Controller
 
         return view('products.edit', compact('product', 'companies'));
     }
-    
 
     public function update(Request $request, Product $product)
     {

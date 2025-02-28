@@ -155,7 +155,8 @@
                         <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button">削除</button>
+                            <!-- <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button">削除</button> -->
+                            <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button>
                         </form>
                     </td>
                 </tr>
@@ -190,36 +191,35 @@
 
         /**  削除機能のコード　　 */
         function bindDeleteEvent() {
-            
-            $(document).on('click', '.delete-button', function(event) {
-                event.preventDefault(); // デフォルトの動作を防ぐ
-                let $button = $(this); // クリックされたボタン
-                let itemId = $button.data('id'); // ボタンに設定されたデータ属性からID取得
-                let url = '/delete/' + itemId; // 削除リクエストのURL
+             $(document).on('click', '.delete-button', function(event) {
+                 event.preventDefault(); // デフォルトの動作を防ぐ
+                 let $button = $(this); // クリックされたボタン
+                 let itemId = $button.data('id'); // ボタンに設定されたデータ属性からID取得
+                 let url = '/delete/' + itemId; // 削除リクエストのURL
 
-                if (!confirm('本当に削除しますか？')) {
-                    return; // キャンセルした場合は処理しない
-                }
+                 if (!confirm('本当に削除しますか？')) {
+                     return; // キャンセルした場合は処理しない
+                 }
 
-                $.ajax({
-                    url: url,
-                    type: 'POST', // または 'DELETE' (サーバーが対応している場合)
-                    data: { id: itemId },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            $button.closest('.item-row').fadeOut(500, function() {
+                 $.ajax({
+                     url: url,
+                     type: 'POST',
+                     data: { id: itemId },
+                     dataType: 'json',
+                     success: function(response) {
+                         if (response.success) {
+                             $button.closest('.item-row').fadeOut(500, function() {
                                 $(this).remove();
-                            });
-                        } else {
-                            alert('削除に失敗しました。');
-                        }
-                    },
-                    error: function() {
-                        alert('エラーが発生しました。');
-                    }
-                });
-            });
+                             });
+                         } else {
+                             alert('削除に失敗しました。');
+                         }
+                     },
+                     error: function() {
+                         alert('エラーが発生しました。');
+                     }
+                 });
+             });
         }
 
         /** ページネーション機能のコード */
@@ -248,6 +248,7 @@
             bindDeleteEvent();  // 初回の削除イベントをバインド
             bindPaginationEvent(); // 初回のページネーションイベントをバインド
         
+        });    
 
         $('#search-form').on('submit', function (e) {
             e.preventDefault();
@@ -264,7 +265,6 @@
                 }
             });
         });
-
 
         $(document).on('click', '.column-sorting', function(event) { 
             event.preventDefault(); // デフォルトのリンク動作を防ぐ
