@@ -189,38 +189,57 @@
         });
 
         /**  削除機能のコード　　 */
-        $(document).on('click', '.delete-button', function (event) {
-            event.preventDefault(); // デフォルトのフォーム送信を防ぐ
-            if (confirm('本当に削除しますか？')) {
-            const form = $(this).closest('form');  // 削除ボタンが含まれるフォームを取得
-            const actionUrl = form.attr('action'); // フォームのaction URLを取得
+        function bindDeleteEvent() {
+            
+            $(document).on('click', '.delete-button', function(event) {
+                event.preventDefault(); // デフォルトの動作を防ぐ
+                let $button = $(this); // クリックされたボタン
+                let itemId = $button.data('id'); // ボタンに設定されたデータ属性からID取得
+                let url = '/delete/' + itemId; // 削除リクエストのURL
 
-            // AJAXリクエストを送信
-            $.ajax({
-                url: actionUrl,
-                type: 'POST',
-                data: {
-                _method: 'DELETE',  // DELETEメソッドを指定
-                _token: '{{ csrf_token() }}'  // CSRFトークンを送信
-                },
-                success: function (response) {
-                if (response.success) {
-                    alert('削除が成功しました。');
-                    form.closest('tr').remove();  // 削除した行を画面から削除
-                } else {
-                    alert('削除に失敗しました。');
+                if (!confirm('本当に削除しますか？')) {
+                    return; // キャンセルした場合は処理しない
                 }
-                },
-                error: function (xhr) {
-                    alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
-                }
+
+                $.ajax({
+                    url: url,
+                    type: 'POST', // または 'DELETE' (サーバーが対応している場合)
+                    data: { id: itemId },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            $button.closest('.item-row').fadeOut(500, function() {
+                                $(this).remove();
+                            });
+                        } else {
+                            alert('削除に失敗しました。');
+                        }
+                    },
+                    error: function() {
+                        alert('エラーが発生しました。');
+                    }
+                });
             });
-            }
+        }
+
+        function bindPaginationEvent(){
+            $(document).～　でページネーションの処理
+            $.ajax({ /**～**/
+                bindDeleteEvent();  // 削除イベントを再適用
+                bindPaginationEvent(); // ページネーションイベントも再適用
+            });
+        }
+
+        function bindPaginationEvent() {　
+    
+
+        $(document).ready(function() {
+            bindDeleteEvent();
         });
 
         $('#search-form').on('submit', function (e) {
-        e.preventDefault();
-        const formData = $(this).serialize();
+            e.preventDefault();
+            const formData = $(this).serialize();
             $.ajax({
                 url: '{{ route("products.index") }}',
                 type: 'GET',
@@ -233,6 +252,7 @@
                 }
             });
         });
+
 
         $(document).on('click', '.column-sorting', function(event) { 
             event.preventDefault(); // デフォルトのリンク動作を防ぐ
@@ -249,14 +269,6 @@
             });
         
         });
-
-        
-
-
-
-
-
-
 
 
     });
