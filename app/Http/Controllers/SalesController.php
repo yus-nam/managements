@@ -30,7 +30,6 @@ class SalesController extends Controller
         $product->stock -= $quantity;
         $product->save();
 
-
         $sale = new Sale([
             'product_id' => $productId,
             'quantity' => $quantity,

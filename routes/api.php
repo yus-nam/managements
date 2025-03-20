@@ -31,5 +31,4 @@ Route::prefix('sales')->group(function () {
     // 他のセールス関連ルートもここに追加できます
 });
 
-
  Route::get('/products', [ProductController::class, 'index']);

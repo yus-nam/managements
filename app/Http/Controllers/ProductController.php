@@ -9,7 +9,6 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-
 class ProductController extends Controller
 {
     public function index(Request $request)
@@ -187,5 +186,4 @@ class ProductController extends Controller
             return response()->json(['error' => 'Failed to delete product'], 500);
         }
     }
-
 }
