@@ -46,3 +46,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     
 });
+
