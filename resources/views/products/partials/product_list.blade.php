@@ -16,7 +16,7 @@
         </thead>
         <tbody>
         @foreach ($products as $product)
-            <tr>
+            <tr class="item-row">
                 <td>{{ $product->id }}</td>
                 <td>{{ $product->product_name }}</td>
                 <td>{{ $product->company->company_name ?? '未設定' }}</td>

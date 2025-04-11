@@ -140,7 +140,7 @@
             </thead>
             <tbody>
             @foreach ($products as $product)
-                <tr>
+                <tr class="item-row" id="item">
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->product_name }}</td>
                     <td>{{ $product->company->company_name ?? '未設定' }}</td>
@@ -156,7 +156,7 @@
                             @csrf
                             @method('DELETE')
                             <!-- <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button">削除</button> -->
-                            <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button>
+                            <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $item->id }}">削除</button>
                         </form>
                     </td>
                 </tr>
@@ -172,6 +172,9 @@
 <script>
     $(document).ready(function() {
 
+        // function bindSearch() {
+
+        // }
         $('#search-form').on('submit', function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
@@ -181,7 +184,7 @@
                 type: 'GET',
                 data: formData,
                 success: function(response) {
-                    $('#product-list').html(response).addClass('delete-button')**/;
+                    $('#product-list').html(response).addClass('delete-button');
                 },
                 error: function(xhr) {
                     alert('search failed: ' + xhr.status + ' - ' + xhr.responseText);
@@ -190,37 +193,42 @@
         });
 
         /**  削除機能のコード　　 */
+
         function bindDeleteEvent() {
              $(document).on('click', '.delete-button', function(event) {
-                 event.preventDefault(); // デフォルトの動作を防ぐ
-                 let $button = $(this); // クリックされたボタン
-                 let itemId = $button.data('id'); // ボタンに設定されたデータ属性からID取得
-                 let url = '/delete/' + itemId; // 削除リクエストのURL
+                event.preventDefault(); // デフォルトの動作を防ぐ
+                let $button = $(this); // クリックされたボタン
+                let itemId = $button.data('id'); // ボタンに設定されたデータ属性からID取得
+                let url = '/items/' + itemId; // 削除リクエストのURL
 
-                 if (!confirm('本当に削除しますか？')) {
+                if (!confirm('本当に削除しますか？')) {
                      return; // キャンセルした場合は処理しない
-                 }
+                }
 
                  $.ajax({
-                     url: url,
-                     type: 'POST',
-                     data: { id: itemId },
-                     dataType: 'json',
-                     success: function(response) {
-                         if (response.success) {
-                             $button.closest('.item-row').fadeOut(500, function() {
+                    url: url,
+                    // url: `/items/${itemId}`
+                    type: 'DELETE',
+                    // type: 'POST',
+                    // data: { id: itemId },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            $button.closest('.item-row').fadeOut(500, function() {
                                 $(this).remove();
-                             });
-                         } else {
+                            });
+                        } else {
                              alert('削除に失敗しました。');
-                         }
-                     },
-                     error: function() {
-                         alert('エラーが発生しました。');
-                     }
-                 });
-             });
+                        }
+                    },
+                    error: function() {
+                        console.error(xhr);
+                        alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
+                    }
+                });
+            });
         }
+
 
         /** ページネーション機能のコード */
         function bindPaginationEvent() {
@@ -233,9 +241,9 @@
                     type: 'GET',
                     success: function(response) {
                     // レスポンスの中から#product-listの内容を更新
-                    $('#product-list').html($(response).find('#product-list').html());
-                        bindDeleteEvent();  // 削除イベントを再バインド
-                        bindPaginationEvent(); // ページネーションイベントを再バインド
+                    //$('#product-list').html($(response).find('#product-list').html());
+                        // bindDeleteEvent();  // 削除イベントを再バインド
+                        // bindPaginationEvent(); // ページネーションイベントを再バインド
                     },
                     error: function(xhr) {
                         alert('Pagination failed: ' + xhr.status + ' - ' + xhr.responseText);
@@ -244,11 +252,17 @@
             });
         }
 
-        $(document).ready(function() {
-            bindDeleteEvent();  // 初回の削除イベントをバインド
-            bindPaginationEvent(); // 初回のページネーションイベントをバインド
+        // 共通して再バインドする処理をまとめる
+        function rebindAllEvents() {
+            bindDeleteEvent();
+            bindPaginationEvent();
+            // bindSortEvent();
+        }
+
         
-        });    
+            // bindDeleteEvent();  // 初回の削除イベントをバインド
+            // bindPaginationEvent(); // 初回のページネーションイベントをバインド
+        
 
         $('#search-form').on('submit', function (e) {
             e.preventDefault();

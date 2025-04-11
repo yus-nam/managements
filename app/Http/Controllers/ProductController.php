@@ -179,7 +179,7 @@ class ProductController extends Controller
         try {
             $product->delete();
             DB::commit();
-            return response()->json(['success' => 'Product deleted successfully']);
+            return response()->json(['success' => true, 'message' => 'Product deleted successfully']);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e);
