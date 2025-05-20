@@ -257,15 +257,12 @@
                         }
                     },
                     error: function(xhr) {
-                        console.error(xhr);
-                        alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
+                    console.error(xhr);
+                    alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
                     }
                 });
             });
         }
-
-
-
 
         /** ページネーション機能のコード */
         function bindPaginationEvent() {
@@ -293,44 +290,47 @@
         function rebindAllEvents() {
             bindDeleteEvent();
             bindPaginationEvent();
+            // bindSortEvent();
         }
-        
-        $(document).ready(function() {
-            rebindAllEvents();
-        
-            $('#search-form').on('submit', function (e) {
-                e.preventDefault();
-                const formData = $(this).serialize();
-                $.ajax({
-                    url: '{{ route("products.index") }}',
-                    type: 'GET',
-                    data: formData,
-                    success: function (response) {
-                        $('#product-list').html(response); // 商品リストを更新
-                    },
-                    error: function (xhr) {
-                        alert('検索に失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
-                    }
-                });
-            });
 
-            $(document).on('click', '.column-sorting', function(event) { 
-                event.preventDefault(); // デフォルトのリンク動作を防ぐ
-                var url = $(this).attr('href'); // ソートリンクのURLを取得
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function(response) {
-                        $('#product-list').html($(response).find('#product-list').html()); // 部分更新
-                        rebindAllEvents();
-                    },
-                    error: function(xhr) {
-                        alert('ソートに失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
-                    }
-                });
+            // bindDeleteEvent();  // 初回の削除イベントをバインド
+            // bindPaginationEvent(); // 初回のページネーションイベントをバインド
+        
+        $('#search-form').on('submit', function (e) {
+            e.preventDefault();
+            const formData = $(this).serialize();
+            $.ajax({
+                url: '{{ route("products.index") }}',
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    $('#product-list').html(response); // 商品リストを更新
+                },
+                error: function (xhr) {
+                    alert('検索に失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
+                }
             });
-
         });
+
+        $(document).on('click', '.column-sorting', function(event) { 
+            event.preventDefault(); // デフォルトのリンク動作を防ぐ
+            var url = $(this).attr('href'); // ソートリンクのURLを取得
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    $('#product-list').html($(response).find('#product-list').html()); // 部分更新
+                },
+                error: function(xhr) {
+                    alert('ソートに失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
+                }
+            });
+        
+        });
+
+        rebindAllEvents(); // ← これを $(document).ready の最後に追加
+
+    });
 
 </script>
 
