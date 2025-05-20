@@ -39,6 +39,7 @@
 </div>
 {{ $products->appends(request()->query())->links() }}
 
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const deleteForms = document.querySelectorAll('.delete-form');
