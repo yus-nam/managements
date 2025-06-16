@@ -36,8 +36,8 @@
         @endforeach
         </tbody>
     </table>
+    {{ $products->appends(request()->query())->links() }}
 </div>
-{{ $products->appends(request()->query())->links() }}
 
 
 <script>
