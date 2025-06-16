@@ -152,12 +152,13 @@
                     <td>
                         <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細</a>
                         
-                        <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline">
+                        <!-- <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline"> -->
                             @csrf
                             @method('DELETE')
                             <!-- <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button">削除</button> -->
-                            <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button>
-                        </form>
+                            <!-- <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button> -->
+                            <button type="button" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button>
+                        <!-- </form> -->
                     </td>
                 </tr>
             @endforeach
@@ -171,62 +172,6 @@
 
 <script>
     $(document).ready(function() {
-
-        // function bindSearch() {
-
-        // }
-        $('#search-form').on('submit', function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-
-            $.ajax({
-                url: '{{ route("products.index") }}',
-                type: 'GET',
-                data: formData,
-                success: function(response) {
-                    $('#product-list').html(response).addClass('delete-button');
-                },
-                error: function(xhr) {
-                    alert('search failed: ' + xhr.status + ' - ' + xhr.responseText);
-                }
-            });
-        });
-
-        /**  削除機能のコード　　 */
-        // function bindDeleteEvent() {
-        //      $(document).on('click', '.delete-button', function(event) {
-        //         event.preventDefault(); // デフォルトの動作を防ぐ
-        //         let $button = $(this); // クリックされたボタン
-        //         let itemId = $button.data('id'); // ボタンに設定されたデータ属性からID取得
-        //         let url = '/itemId/' + itemId; // 削除リクエストのURL
-
-        //         if (!confirm('本当に削除しますか？')) {
-        //              return; // キャンセルした場合は処理しない
-        //         }
-
-        //          $.ajax({
-        //             url: url,
-        //             // url: `/items/${itemId}`
-        //             type: 'DELETE',
-        //             // type: 'POST',
-        //             // data: { id: itemId },
-        //             dataType: 'json',
-        //             success: function(response) {
-        //                 if (response.success) {
-        //                     $button.closest('.item-row').fadeOut(500, function() {
-        //                         $(this).remove();
-        //                     });
-        //                 } else {
-        //                      alert('削除に失敗しました。');
-        //                 }
-        //             },
-        //             error: function(xhr) {
-        //                 console.error(xhr);
-        //                 alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
-        //             }
-        //         });
-        //     });
-        // }
 
         function bindDeleteEvent() {
             $(document).on('click', '.delete-button', function(event) {
@@ -293,8 +238,8 @@
             // bindSortEvent();
         }
 
-            // bindDeleteEvent();  // 初回の削除イベントをバインド
-            // bindPaginationEvent(); // 初回のページネーションイベントをバインド
+            bindDeleteEvent();  // 初回の削除イベントをバインド
+            bindPaginationEvent(); // 初回のページネーションイベントをバインド
         
         $('#search-form').on('submit', function (e) {
             e.preventDefault();
