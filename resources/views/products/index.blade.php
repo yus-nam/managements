@@ -152,12 +152,14 @@
                     <td>
                         <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細</a>
                         
-                        <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline">
-                            @csrf
-                            @method('DELETE')
+                        <button class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button>
+
+                        <!-- <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline"> -->
+                            <!-- @csrf -->
+                            <!-- @method('DELETE') -->
                             <!-- <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button">削除</button> -->
-                            <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button>
-                        </form>
+                            <!-- <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button> -->
+                        <!-- </form> --> 
                     </td>
                 </tr>
             @endforeach
@@ -172,28 +174,61 @@
 <script>
     $(document).ready(function() {
 
+        // function bindDeleteEvent() {
+        //     $(document).on('click', '.delete-button', function(event) {
+        //         event.preventDefault();
+
+        //         let $button = $(this);
+        //         let itemId = $button.data('id');
+        //         let url = '/products/' + itemId;
+
+        //         if (!confirm('本当に削除しますか？')) {
+        //             return;
+        //         }
+
+        //         $.ajax({
+        //             url: url,
+        //             type: 'DELETE',
+        //             dataType: 'json',
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             success: function(response) {
+        //                 if (response.success) {
+        //                     $button.closest('.item-row').fadeOut(500, function() {
+        //                         $(this).remove();
+        //                     });
+        //                 } else {
+        //                     alert('削除に失敗しました。');
+        //                 }
+        //             },
+        //             error: function(xhr) {
+        //             console.error(xhr);
+        //             alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
+        //             }
+        //         });
+        //     });
+        // }
+
         function bindDeleteEvent() {
+
+        
             $(document).on('click', '.delete-button', function(event) {
-                event.preventDefault();
+                event.preventDefault(); // フォーム送信を完全に防ぐ
+                const button = $(this);
+                const id = button.data('id');
 
-                let $button = $(this);
-                let itemId = $button.data('id');
-                let url = '/products/' + itemId;
-
-                if (!confirm('本当に削除しますか？')) {
-                    return;
-                }
+                if (!confirm('本当に削除しますか？')) return;
 
                 $.ajax({
-                    url: url,
+                    url: `/products/${id}`,
                     type: 'DELETE',
-                    dataType: 'json',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
                         if (response.success) {
-                            $button.closest('.item-row').fadeOut(500, function() {
+                            button.closest('.item-row').fadeOut(300, function() {
                                 $(this).remove();
                             });
                         } else {
@@ -201,12 +236,13 @@
                         }
                     },
                     error: function(xhr) {
-                    console.error(xhr);
-                    alert('エラーが発生しました: ' + xhr.status + ' - ' + xhr.responseText);
+                        alert('エラーが発生しました: ' + xhr.status);
                     }
                 });
             });
         }
+
+
 
         /** ページネーション機能のコード */
         function bindPaginationEvent() {
@@ -218,7 +254,7 @@
                     url: url,
                     type: 'GET',
                     success: function(response) {
-                    レスポンスの中から#product-listの内容を更新
+                    レスポンスの中から#product-listの内容を更新//コメントアウトしないことで反応が上手くいく
                     $('#product-list').html($(response).find('#product-list').html());
                         bindDeleteEvent();  // 削除イベントを再バインド
                         bindPaginationEvent(); // ページネーションイベントを再バインド
