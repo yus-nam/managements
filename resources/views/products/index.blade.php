@@ -212,7 +212,6 @@
 
         function bindDeleteEvent() {
 
-        
             $(document).on('click', '.delete-button', function(event) {
                 event.preventDefault(); // フォーム送信を完全に防ぐ
                 const button = $(this);
