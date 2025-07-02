@@ -212,7 +212,7 @@
 
         function bindDeleteEvent() {
 
-            $(document).on('click', '.delete-button', function(event) {
+            $(document).off('click', '.delete-button', function(event) {
                 event.preventDefault(); // フォーム送信を完全に防ぐ
                 const button = $(this);
                 const id = button.data('id');
@@ -253,7 +253,7 @@
                     url: url,
                     type: 'GET',
                     success: function(response) {
-                    レスポンスの中から#product-listの内容を更新//コメントアウトしないことで反応が上手くいく
+                    // レスポンスの中から#product-listの内容を更新//コメントアウトしないことで反応が上手くいく
                     $('#product-list').html($(response).find('#product-list').html());
                         bindDeleteEvent();  // 削除イベントを再バインド
                         bindPaginationEvent(); // ページネーションイベントを再バインド
@@ -272,8 +272,6 @@
             // bindSortEvent();
         }
 
-            bindDeleteEvent();  // 初回の削除イベントをバインド
-            bindPaginationEvent(); // 初回のページネーションイベントをバインド
         
         $('#search-form').on('submit', function (e) {
             e.preventDefault();
@@ -298,7 +296,7 @@
                 url: url,
                 type: 'GET',
                 success: function(response) {
-                    $('#product-list').html($(response).find('#product-list').html()); // 部分更新
+                    $('#product-list').html($(response).find('#product-list'); // 部分更新
                 },
                 error: function(xhr) {
                     alert('ソートに失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
@@ -308,6 +306,8 @@
         });
 
         rebindAllEvents(); // ← これを $(document).ready の最後に追加
+
+        // console.log('js');
 
     });
 
