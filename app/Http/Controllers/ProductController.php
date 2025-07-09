@@ -61,6 +61,7 @@ class ProductController extends Controller
             'sort_by' => $sortBy,
             'sort_order' => $sortOrder,
         ]);
+        // dd($request->all());
     }
         
     public function create()

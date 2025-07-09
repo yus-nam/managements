@@ -212,8 +212,11 @@
 
         function bindDeleteEvent() {
 
-            $(document).off('click', '.delete-button', function(event) {
+            $(document).on('click', '.delete-button', function(event) {
                 event.preventDefault(); // フォーム送信を完全に防ぐ
+                console.log('削除ボタンがクリックされました');
+
+
                 const button = $(this);
                 const id = button.data('id');
 
@@ -242,7 +245,6 @@
         }
 
 
-
         /** ページネーション機能のコード */
         function bindPaginationEvent() {
             $(document).on('click', '.pagination a', function(event) {
@@ -254,7 +256,7 @@
                     type: 'GET',
                     success: function(response) {
                     // レスポンスの中から#product-listの内容を更新//コメントアウトしないことで反応が上手くいく
-                    $('#product-list').html($(response).find('#product-list').html());
+                    $('#product-list').html($(response));
                         bindDeleteEvent();  // 削除イベントを再バインド
                         bindPaginationEvent(); // ページネーションイベントを再バインド
                     },
@@ -271,8 +273,9 @@
             bindPaginationEvent();
             // bindSortEvent();
         }
-
         
+        
+        /** ページネーション機能のコード */
         $('#search-form').on('submit', function (e) {
             e.preventDefault();
             const formData = $(this).serialize();
@@ -289,6 +292,8 @@
             });
         });
 
+
+        /** ソート機能のコード */
         $(document).on('click', '.column-sorting', function(event) { 
             event.preventDefault(); // デフォルトのリンク動作を防ぐ
             var url = $(this).attr('href'); // ソートリンクのURLを取得
@@ -296,7 +301,7 @@
                 url: url,
                 type: 'GET',
                 success: function(response) {
-                    $('#product-list').html($(response).find('#product-list'); // 部分更新
+                    $('#product-list').html(response); // 部分更新
                 },
                 error: function(xhr) {
                     alert('ソートに失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
