@@ -211,60 +211,92 @@
         // }
 
         function bindDeleteEvent() {
-
             $(document).on('click', '.delete-button', function(event) {
-                event.preventDefault(); // フォーム送信を完全に防ぐ
-                console.log('削除ボタンがクリックされました');
-
-
-                const button = $(this);
-                const id = button.data('id');
-
+                event.preventDefault();
                 if (!confirm('本当に削除しますか？')) return;
 
+                const id = $(this).data('id');
                 $.ajax({
                     url: `/products/${id}`,
                     type: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    
                     success: function(response) {
                         if (response.success) {
-                            button.closest('.item-row').fadeOut(300, function() {
-                                $(this).remove();
-                            });
+                        // 削除成功後にリストを再取得して描画する方が安全
+                        $('#search-form').submit();
                         } else {
                             alert('削除に失敗しました。');
                         }
-                    },
-                    error: function(xhr) {
-                        alert('エラーが発生しました: ' + xhr.status);
                     }
                 });
             });
+
+
+
+
+
+            // $(document).on('click', '.delete-button', function(event) {
+            //     event.preventDefault(); // フォーム送信を完全に防ぐ
+            //     console.log('削除ボタンがクリックされました');
+
+
+            //     const button = $(this);
+            //     const id = button.data('id');
+
+            //     if (!confirm('本当に削除しますか？')) return;
+
+            //     $.ajax({
+            //         url: `/products/${id}`,
+            //         type: 'DELETE',
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+            //         success: function(response) {
+            //             if (response.success) {
+            //                 button.closest('.item-row').fadeOut(300, function() {
+            //                     $(this).remove();
+            //                 });
+            //             } else {
+            //                 alert('削除に失敗しました。');
+            //             }
+            //         },
+            //         error: function(xhr) {
+            //             alert('エラーが発生しました: ' + xhr.status);
+            //         }
+            //     });
+            // });
         }
 
 
         /** ページネーション機能のコード */
         function bindPaginationEvent() {
+            // $(document).off('click', '.pagination a');
             $(document).on('click', '.pagination a', function(event) {
-                event.preventDefault(); // ページネーションリンクのデフォルト動作を防ぐ
-                var url = $(this).attr('href'); // 次のページのURLを取得
-
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function(response) {
-                    // レスポンスの中から#product-listの内容を更新//コメントアウトしないことで反応が上手くいく
-                    $('#product-list').html($(response));
-                        bindDeleteEvent();  // 削除イベントを再バインド
-                        bindPaginationEvent(); // ページネーションイベントを再バインド
-                    },
-                    error: function(xhr) {
-                        alert('Pagination failed: ' + xhr.status + ' - ' + xhr.responseText);
-                    }
+                event.preventDefault();
+                $.get($(this).attr('href'), function(response) {
+                    $('#product-list').html(response); // responseは部分テンプレート
                 });
             });
+
+            // $(document).on('click', '.pagination a', function(event) {
+            //     event.preventDefault(); // ページネーションリンクのデフォルト動作を防ぐ
+            //     var url = $(this).attr('href'); // 次のページのURLを取得
+
+            //     $.ajax({
+            //         url: url,
+            //         type: 'GET',
+            //         success: function(response) {
+            //         // レスポンスの中から#product-listの内容を更新//コメントアウトしないことで反応が上手くいく
+            //         $('#product-list').html($(response));
+            //             bindDeleteEvent();  // 削除イベントを再バインド
+            //             bindPaginationEvent(); // ページネーションイベントを再バインド
+            //         },
+            //         error: function(xhr) {
+            //             alert('Pagination failed: ' + xhr.status + ' - ' + xhr.responseText);
+            //         }
+            //     });
+            // });
         }
 
         // 共通して再バインドする処理をまとめる
@@ -275,7 +307,7 @@
         }
         
         
-        /** ページネーション機能のコード */
+        /** 検索機能のコード */
         $('#search-form').on('submit', function (e) {
             e.preventDefault();
             const formData = $(this).serialize();

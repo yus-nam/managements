@@ -48,12 +48,13 @@ class ProductController extends Controller
         $products = $query->paginate(10)->appends($request->all());
 
         if ($request->ajax()) {
-            return view('products.partials.product_list', [
-                'products' => $products,
-                'companies' => $companies,
-                'sort_by' => $sortBy,
-                'sort_order' => $sortOrder,
-            ]);
+            return view('products.partials.product_list', compact('products'))->render();
+            // [
+            //     'products' => $products,
+            //     'companies' => $companies,
+            //     'sort_by' => $sortBy,
+            //     'sort_order' => $sortOrder,
+            // ]);
         }
         return view('products.index', [
             'products' => $products,
