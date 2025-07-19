@@ -1,5 +1,5 @@
 <!-- resources/views/products/partials/product_list.blade.php -->
-<div class="products mt-5" id="product-list">
+
     <h2>商品情報</h2>
     <table class="table table-striped">
         <!-- <thead>
@@ -114,6 +114,6 @@
         @endforeach
         </tbody>
     </table>
-    {{ $products->appends(request()->query())->links() }}
-</div>
+    <!-- {{ $products->appends(request()->query())->links() }} -->
+
 

@@ -223,8 +223,7 @@
                     
                     success: function(response) {
                         if (response.success) {
-                        // 削除成功後にリストを再取得して描画する方が安全
-                        $('#search-form').submit();
+                        $('#search-form').submit();// 削除成功後にリストを再取得して描画する方が安全
                         } else {
                             alert('削除に失敗しました。');
                         }
@@ -271,11 +270,12 @@
 
         /** ページネーション機能のコード */
         function bindPaginationEvent() {
-            // $(document).off('click', '.pagination a');
+            $(document).off('click', '.pagination a');
             $(document).on('click', '.pagination a', function(event) {
                 event.preventDefault();
                 $.get($(this).attr('href'), function(response) {
                     $('#product-list').html(response); // responseは部分テンプレート
+                    rebindAllEvents();
                 });
             });
 
@@ -317,6 +317,7 @@
                 data: formData,
                 success: function (response) {
                     $('#product-list').html(response); // 商品リストを更新
+                    rebindAllEvents();
                 },
                 error: function (xhr) {
                     alert('検索に失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
@@ -334,6 +335,7 @@
                 type: 'GET',
                 success: function(response) {
                     $('#product-list').html(response); // 部分更新
+                    rebindAllEvents();
                 },
                 error: function(xhr) {
                     alert('ソートに失敗しました: ' + xhr.status + ' - ' + xhr.responseText);
@@ -342,7 +344,7 @@
         
         });
 
-        rebindAllEvents(); // ← これを $(document).ready の最後に追加
+        rebindAllEvents();
 
         // console.log('js');
 
