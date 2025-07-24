@@ -58,7 +58,6 @@
 
 
     <div class="products mt-5" id="product-list">
-        <h2>商品情報</h2>
         <table class="table table-striped">
             <thead>
 
