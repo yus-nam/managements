@@ -80,18 +80,20 @@
 
                 if (!confirm('本当に削除しますか？')) return;
 
-                const id = $(this).data('id');
+                // const id = $(this).data('url');
+                const url = $(this).data('url'); // ここでURLを取得
                 const token = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
-                    url: `/products/${id}`,
+                    // url: `/products/${id}`,
+                    url: url,
                     type: 'DELETE',
                     headers: { 'X-CSRF-TOKEN': token },
                     // headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     
                     success: function(response) {
                         if (response.success) {
-                        // 削除成功後にリストを再取得して描画する方が安全
+                        // 削除後リスト再描画
                         $.get($('#search-form').attr('action'), $('#search-form').serialize(), function(resp) {
                             $('#product-list').html(resp.list);
                             $('#pagination-area').html(resp.pagination);

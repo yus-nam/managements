@@ -108,7 +108,13 @@
                         @csrf
                         @method('DELETE')
                         <!-- <button type="submit" class="btn btn-danger btn-sm mx-1 delete-button">削除</button> -->
-                        <button type="button" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button>
+                        <!-- <button type="button" class="btn btn-danger btn-sm mx-1 delete-button" data-id="{{ $product->id }}">削除</button> -->
+
+                        <button type="button" class="btn btn-danger btn-sm mx-1 delete-button"
+                            data-url="{{ route('products.destroy', $product) }}">
+                            削除
+                        </button>
+
                     </form>
                 </td>
             </tr>
