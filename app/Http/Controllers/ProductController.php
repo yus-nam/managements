@@ -14,6 +14,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         Log::info('Index method called', $request->all());
+
         $companies = Company::all();
         $query = Product::query();
         
@@ -48,13 +49,19 @@ class ProductController extends Controller
         $products = $query->paginate(10)->appends($request->all());
 
         if ($request->ajax()) {
-            return view('products.partials.product_list', compact('products'))->render();
+            // return view('products.partials.product_list', compact('products'))->render();
             // [
             //     'products' => $products,
             //     'companies' => $companies,
             //     'sort_by' => $sortBy,
             //     'sort_order' => $sortOrder,
             // ]);
+
+            return response()->json([
+                'list'       => view('products.partials.product_list', compact('products'))->render(),
+                'pagination' => $products->appends($request->query())->links()->toHtml(),
+            ]);
+
         }
         return view('products.index', [
             'products' => $products,
