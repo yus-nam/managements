@@ -27,8 +27,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // セールス関連のルート
 Route::prefix('sales')->group(function () {
-    Route::get('/purchase', [SaleController::class, 'purchase']);
-    // 他のセールス関連ルートもここに追加できます
+    // Route::get('/purchase', [SaleController::class, 'purchase']);
+    
+    // 購入処理
+    Route::post('/purchase', [SaleController::class, 'purchase']);
+
 });
 
  Route::get('/products', [ProductController::class, 'index']);

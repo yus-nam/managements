@@ -9,11 +9,12 @@ class Sale extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id',
-                            '',
-                            '',
-                            '',
-                          ];
+    protected $fillable = [
+        'product_id',
+        'quantity',
+        'price',
+        'purchased_at',
+    ];
 
     public function product()
     {
